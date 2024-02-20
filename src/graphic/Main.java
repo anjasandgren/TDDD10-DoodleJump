@@ -1,5 +1,6 @@
-package functionality;
+package graphic;
 
+import functionality.BottomPanel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
