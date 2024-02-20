@@ -1,4 +1,4 @@
-package projekt;
+package functionality;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -9,7 +9,7 @@ public class BottomPanel extends HBox {
 	private Button exitButton;
 	private Button playButton;
 	
-	public BottomPanel {
+	public BottomPanel() {
 		// göra nya knappar med annan  grafik?
 		Button hsButton = new hsButton();
 		exitButton = new Button("Undo");

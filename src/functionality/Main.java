@@ -1,4 +1,4 @@
-package projekt;
+package functionality;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,7 +15,7 @@ public class Main extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		VBox window 				= new VBox();
-		HBox myBottomPanel  		= new BottomPanel);
+		HBox myBottomPanel  		= new BottomPanel();
 
 		
 		window.getChildren().add(myBottomPanel);
@@ -25,6 +25,4 @@ public class Main extends Application{
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
-	}
-	
 }
