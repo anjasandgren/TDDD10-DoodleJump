@@ -1,5 +1,6 @@
-package functionality;
+package graphic;
 
+import functionality.BottomPanel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -17,11 +18,10 @@ public class Main extends Application{
 		VBox window 				= new VBox();
 		HBox myBottomPanel  		= new BottomPanel();
 
-		
 		window.getChildren().add(myBottomPanel);
 		Scene mainScene = new Scene(window);
 
-		primaryStage.setTitle("Welcome to Doodle"");
+		primaryStage.setTitle("Doodle Jump");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
