@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+// grafiken här om hur knappen ser ut?
 public class MyButton extends Canvas {
 	private PaintSurface myCanvas;
 	private static final int width = 35, height = 35;

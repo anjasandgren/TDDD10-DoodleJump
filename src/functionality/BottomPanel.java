@@ -10,30 +10,23 @@ public class BottomPanel extends HBox {
 	private Button playButton;
 	
 	public BottomPanel() {
+		
 		// göra nya knappar med annan  grafik?
 		Button hsButton = new hsButton();
-		exitButton = new Button("Undo");
-		playButton = new Button("Open");
+		exitButton = new exitButton();
+		playButton = new playButton();
 
-		clearButton.setOnAction(event -> {
+		hsButton.setOnAction(event -> {
 			myCanvas.clear();
 		});
 		
-		undoButton.setOnAction(event -> {
+		exitButton.setOnAction(event -> {
 			myCanvas.undo();
 		});
 		
-		openButton.setOnAction(event -> {
+		playButton.setOnAction(event -> {
 			try {
 				open();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		
-		saveButton.setOnAction(event -> {
-			try {
-				save();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

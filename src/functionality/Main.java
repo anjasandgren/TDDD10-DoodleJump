@@ -21,7 +21,7 @@ public class Main extends Application{
 		window.getChildren().add(myBottomPanel);
 		Scene mainScene = new Scene(window);
 
-		primaryStage.setTitle("...");
+		primaryStage.setTitle("Welcome to Doodle"");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
