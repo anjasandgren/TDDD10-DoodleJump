@@ -17,21 +17,14 @@ public class BottomPanel extends HBox {
 		playButton = new playButton();
 
 		hsButton.setOnAction(event -> {
-			myCanvas.clear();
 		});
 		
 		exitButton.setOnAction(event -> {
-			myCanvas.undo();
 		});
 		
 		playButton.setOnAction(event -> {
-			try {
-				open();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		});
 
-		this.getChildren().addAll(clearButton, undoButton, openButton, saveButton);
+		this.getChildren().addAll(clearButton, undoButton, openButton);
 	}
 }

@@ -13,15 +13,13 @@ public class Main extends Application{
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
-		
 		VBox window 				= new VBox();
 		HBox myBottomPanel  		= new BottomPanel();
 
-		
 		window.getChildren().add(myBottomPanel);
 		Scene mainScene = new Scene(window);
 
-		primaryStage.setTitle("Welcome to Doodle"");
+		primaryStage.setTitle("Welcome to Doodle");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}

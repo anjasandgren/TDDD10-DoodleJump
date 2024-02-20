@@ -6,12 +6,10 @@ import javafx.scene.paint.Color;
 
 // grafiken här om hur knappen ser ut?
 public class MyButton extends Canvas {
-	private PaintSurface myCanvas;
 	private static final int width = 35, height = 35;
 	private GraphicsContext gc;
 	
-	public MyButton(PaintSurface myCanvas) {
-		this.myCanvas = myCanvas;
+	public MyButton() {
 		this.gc = getGraphicsContext2D();
 		setWidth(width);
 		setHeight(height);
@@ -28,11 +26,7 @@ public class MyButton extends Canvas {
 		getGc().setLineWidth(3);
 		getGc().strokeRect(0, 0, getWidth(), getHeight());
 	}
-	
-	public PaintSurface getMyCanvas() {
-		return myCanvas;
-	}
-	
+
 	public GraphicsContext getGc() {
 		return gc;
 	}
