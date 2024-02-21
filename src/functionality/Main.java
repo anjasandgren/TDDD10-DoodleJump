@@ -1,3 +1,11 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 
 public class Main extends Application{
@@ -12,17 +20,18 @@ public class Main extends Application{
 		
 		Label text = new Label("My play HP");
 
-		Image play = new Image(new FileInputStream("/home/cajbj386/TDDE10/projekt/projekt/play.png"));
-		ImageView image = new ImageView(play);
-		
-		window.getChildren().add(myBottomPanel);
-		window.getChildren().add(text);
-		window.getChildren().add(image);
-		
-		Scene mainScene = new Scene(window);
-
-		primaryStage.setTitle("Welcome to Doodle");
-		primaryStage.setScene(mainScene);
-		primaryStage.show();
+		// detta sker väl i main graphic
+//		Image play = new Image(new FileInputStream("/home/cajbj386/TDDE10/projekt/projekt/play.png"));
+//		ImageView image = new ImageView(play);
+//		
+//		window.getChildren().add(myBottomPanel);
+//		window.getChildren().add(text);
+//		window.getChildren().add(image);
+//		
+//		Scene mainScene = new Scene(window);
+//
+//		primaryStage.setTitle("Welcome to Doodle");
+//		primaryStage.setScene(mainScene);
+//		primaryStage.show();
 	}
 }

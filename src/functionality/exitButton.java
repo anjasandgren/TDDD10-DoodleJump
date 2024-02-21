@@ -1,4 +1,11 @@
 
 public class exitButton extends MyButton {
-	// kalla på grafik och en metod
+
+	public exitButton() {
+		
+	}
+
+	@Override
+	public void setOnAction(Object object) {		
+	}
 }

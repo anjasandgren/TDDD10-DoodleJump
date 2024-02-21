@@ -1,4 +1,3 @@
-package functionality;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -12,18 +11,18 @@ public class BottomPanel extends HBox {
 	public BottomPanel() {
 		
 		// göra nya knappar med annan  grafik?
-		Button hsButton = new hsButton();
-		Button exitButton = new exitButton();
-		Button playButton = new playButton();
+		MyButton hsButton = new hsButton();
+		MyButton exitButton = new exitButton();
+		MyButton playButton = new playButton();
 
-		hsButton.setOnAction(event -> {
-		});
-		
-		exitButton.setOnAction(event -> {
-		});
-		
-		playButton.setOnAction(event -> {
-		});
+//		hsButton.setOnAction(event -> {
+//		});
+//		
+//		exitButton.setOnAction(event -> {
+//		});
+//		
+//		playButton.setOnAction(event -> {
+//		});
 
 		this.getChildren().addAll(hsButton, exitButton, playButton);
 	}
