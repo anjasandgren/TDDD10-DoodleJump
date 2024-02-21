@@ -13,8 +13,8 @@ public class BottomPanel extends HBox {
 		
 		// göra nya knappar med annan  grafik?
 		Button hsButton = new hsButton();
-		exitButton = new exitButton();
-		playButton = new playButton();
+		Button exitButton = new exitButton();
+		Button playButton = new playButton();
 
 		hsButton.setOnAction(event -> {
 		});
@@ -25,6 +25,6 @@ public class BottomPanel extends HBox {
 		playButton.setOnAction(event -> {
 		});
 
-		this.getChildren().addAll(clearButton, undoButton, openButton);
+		this.getChildren().addAll(hsButton, exitButton, playButton);
 	}
 }
