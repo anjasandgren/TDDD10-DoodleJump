@@ -1,12 +1,17 @@
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class MyCanvas extends Canvas{
 
-	//private Model model; 
+	private Model model;
+	private GraphicsContext gc;
+	private static final double width=800, height=800;
 	
 	public MyCanvas(Model model) {
-		setWidth(800);
-		setHeight(400);
+		setWidth(width);
+		setHeight(height);
+		this.model = model;
 		
 		setOnMouseClicked(event -> {
 			System.out.println("Mouse Clicked");
@@ -14,8 +19,8 @@ public class MyCanvas extends Canvas{
 		});
 	}
 	
-	public void repaint(Model model) {
-		model.repaint(getGraphicsContext2D());
+	public void repaint(Model model, double width, double height) {
+		model.repaint(getGraphicsContext2D(), width, height);
 	}
 	
 }

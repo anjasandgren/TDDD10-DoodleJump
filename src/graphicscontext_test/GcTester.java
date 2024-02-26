@@ -75,7 +75,7 @@ public class GcTester {
 	public void update() {
 		// We move the position for the images each "tick", or call from the timer.
 		// Can be adjusted to accomodate how fast you wish to move.
-		position.x += 2;
+		position.x += 0;
 		position.y += 2;
 		angle += 3; // Updates the angle of the rotating image
 	}

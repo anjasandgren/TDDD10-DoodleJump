@@ -1,4 +1,4 @@
-package functionality;
+package logic;
 
 import java.io.FileInputStream;
 import javafx.scene.image.Image;

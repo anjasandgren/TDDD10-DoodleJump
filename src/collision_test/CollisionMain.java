@@ -26,7 +26,7 @@ public class CollisionMain {
 		//HÃ¤mtar nya rektangeln fÃ¶r ship
 		shipRec = ship.getRectangle();
 		
-		//Kollar kollision utifrÃ¥n skeppets nya position
+		//Kollar kollision utifrån skeppets nya position
 		if (shipRec.intersects(rockRec)) {
 			System.out.println("KROCK!");
 		} else {

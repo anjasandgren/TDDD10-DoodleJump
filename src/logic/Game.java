@@ -1,4 +1,4 @@
-package functionality;
+package logic;
 
 public class Game {
 	

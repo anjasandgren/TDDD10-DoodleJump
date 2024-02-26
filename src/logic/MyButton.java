@@ -1,4 +1,4 @@
-package functionality;
+package logic;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
