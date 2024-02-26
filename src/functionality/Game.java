@@ -1,3 +1,4 @@
+package functionality;
 
 public class Game {
 	

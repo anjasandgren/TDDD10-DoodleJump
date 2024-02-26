@@ -1,12 +1,10 @@
+package functionality;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-
-
 
 public class Main extends Application{
 	
@@ -15,23 +13,20 @@ public class Main extends Application{
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
-		VBox window 				= new VBox();
-		HBox myBottomPanel  		= new BottomPanel();
-		
-		Label text = new Label("My play HP");
+		VBox menu = new VBox();
 
-		// detta sker väl i main graphic
-//		Image play = new Image(new FileInputStream("/home/cajbj386/TDDE10/projekt/projekt/play.png"));
-//		ImageView image = new ImageView(play);
-//		
-//		window.getChildren().add(myBottomPanel);
-//		window.getChildren().add(text);
-//		window.getChildren().add(image);
-//		
-//		Scene mainScene = new Scene(window);
-//
-//		primaryStage.setTitle("Welcome to Doodle");
-//		primaryStage.setScene(mainScene);
-//		primaryStage.show();
+		MyButton play = new PlayButton();
+		ImageView playButton = play.getButton();
+		
+		MyButton quit = new QuitButton();
+		ImageView quitButton = quit.getButton();
+		
+		menu.getChildren().add(playButton);
+		menu.getChildren().add(quitButton);
+		Scene mainScene = new Scene(menu, 800, 600);
+
+		primaryStage.setTitle("Welcome to Doodle Jump");
+		primaryStage.setScene(mainScene);
+		primaryStage.show();
 	}
 }

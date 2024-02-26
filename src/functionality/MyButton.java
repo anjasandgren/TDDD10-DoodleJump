@@ -1,18 +1,19 @@
+package functionality;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.ImageView;
 
-public abstract class MyButton extends Canvas {
-	private static final int width = 35, height = 35;
-	private GraphicsContext gc;
+public abstract class MyButton extends Canvas{
+	private ImageView button;
 	
 	public MyButton() {
-		this.gc = getGraphicsContext2D();
-		setWidth(width);
-		setHeight(height);
 	}
 
-	public abstract void setOnAction(Object object);
-
+	public ImageView getButton() {
+		return button;
+	}
+	
+	public void setButton(ImageView button) {
+		this.button = button;
+	}
 }
