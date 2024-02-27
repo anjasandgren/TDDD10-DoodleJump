@@ -44,13 +44,9 @@ public class Model {
 			gameObject.drawYourself(gc, width, height);
 		}
 	}
-
+	
 	public void addObjects(GameObject object) {
 		objects.add(object);
-	}
-
-	public boolean isDead() {
-		return getPlayer().isDead();
 	}
 
 	public void removeLife() {

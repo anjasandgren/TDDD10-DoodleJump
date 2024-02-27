@@ -1,5 +1,7 @@
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
+
 import javafx.geometry.Rectangle2D;
 import graphicscontext_test.GcTester.Point;
 import javafx.geometry.Rectangle2D;
@@ -34,7 +36,7 @@ public abstract class GameObject {
 	private Size size;
 	private boolean isPlayer;
 	
-	public GameObject(String imageString, int width, int height, int x, int y, boolean isPlayer) {
+	public GameObject(String imageString, int width, int height, double x, double y, boolean isPlayer) {
 		try {
 			gameObj = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
@@ -48,7 +50,7 @@ public abstract class GameObject {
 	public abstract void update(double width, double height);
 
 	public abstract void drawYourself(GraphicsContext gc, double width, double height);
-
+	
 	public Rectangle2D getRectangle() {
 		return new Rectangle2D(position.x, position.y, size.width, size.height);
 	}
@@ -93,11 +95,21 @@ public abstract class GameObject {
 		return isPlayer;
 	}
 
-	public boolean isDead() {
+	public boolean isDead(ArrayList<GameObject> objects) {
 		return false;
 	}
 	
 	public void removeLife() {
-		System.out.println("Har inga liv :)");
+	}
+
+	public boolean isGoingUp() {
+		return false;
+	}
+
+	public void setToGoingUp() {
+	}
+
+	public boolean diesFromCollision(Player player) {
+		return false;
 	}
 }

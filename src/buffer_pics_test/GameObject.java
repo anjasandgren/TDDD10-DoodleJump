@@ -34,6 +34,4 @@ public class GameObject {
 	public void drawFromSpriteMap(GraphicsContext g) {
 		g.drawImage(SpriteManager.getImage(imageName), x, y);
 	}
-	
-
 }

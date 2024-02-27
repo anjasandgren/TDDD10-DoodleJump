@@ -1,7 +1,6 @@
 
-
+import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -42,14 +41,20 @@ public class MainClass extends Application{
 
 		
 		// Create platforms
-		int y = 0;
+		ArrayList<Rectangle2D> platformRecs = new ArrayList<>();
+		double y = 0;
+		
 		for (int i = 0; i<10; ++i) {
 			Random randX = new Random();
-			int x = randX.nextInt(700);
+			double x = randX.nextInt(700);
 
 			GameObject platform = new Platform("platform.png", 60, 40, x, y);
 			y += frame.getHeight() / 10;
+			
 			model.addObjects(platform);
+			
+			Rectangle2D platformRec = platform.getRectangle();
+			platformRecs.add(platformRec);
 		}
 		
 		// Create monsters
@@ -149,36 +154,52 @@ public class MainClass extends Application{
 			public void handle(long arg0) {
 				model.update(frame.getWidth(), frame.getHeight());
 				frame.repaint(model, frame.getWidth(), frame.getHeight());
-//				if (model.getPlayer().getPosY() >= 800-model.getPlayer().getHeight()-3) {
-//					primaryStage.setScene(gameOverScene);
+				
+				if (player.isDead(model.objects)) {
+					primaryStage.setScene(gameOverScene);
+					reset(player, model);
+				}
+				
+//				//Hämtar dessas rektanglar utifrån deras position just nu
+//				Rectangle2D playerRec = player.getRectangle();
+//				Rectangle2D monsterRec = monster.getRectangle();
+//				Rectangle2D lavaRec = lavaPlatform.getRectangle();
+//				
+//				//Kollar kollision
+//				if (playerRec.intersects(monsterRec)) {
+//					model.getPlayer().removeLife();
+//					if (player.isDead()) {
+//						primaryStage.setScene(gameOverScene);
+//						player.setPosX(0);
+//						player.setPosY(700);
+//					}
+//				}
+//				
+//				if (playerRec.intersects(lavaRec)) {
+//					player.removeLife();
+//					if (player.isDead()) {
+//						primaryStage.setScene(gameOverScene);
+//						player.setPosX(0);
+//						player.setPosY(700);
+//					}
+//				}
+//				
+//				for (Rectangle2D platformRec : platformRecs) {
+//					if (playerRec.intersects(platformRec) && !player.isGoingUp()) {
+//						player.setToGoingUp();
+//					}
 //				}
 				
-				//Hämtar dessas rektanglar utifrån deras position just nu
-				Rectangle2D playerRec = player.getRectangle();
-				Rectangle2D monsterRec = monster.getRectangle();
-				Rectangle2D lavaRec = lavaPlatform.getRectangle();
-				
-				//Kollar kollision
-				if (playerRec.intersects(monsterRec)) {
-					model.getPlayer().removeLife();
-					if (model.isDead()) {
-						primaryStage.setScene(gameOverScene);
-						player.setPosX(0);
-						player.setPosY(700);
-					}
-				}
-				if (playerRec.intersects(lavaRec)) {
-					model.getPlayer().removeLife();
-					if (model.isDead()) {
-						primaryStage.setScene(gameOverScene);
-						player.setPosX(0);
-						player.setPosY(700);
-					}
-				}
 			}
 		}.start();
 		
 		primaryStage.show();
+	}
+
+	protected void reset(GameObject player, Model model) {
+		//TODO: Reset all gameObjects and the model 
+		player.setPosX(0);
+		player.setPosY(500);
 	}
 
 	private String getScore() {
