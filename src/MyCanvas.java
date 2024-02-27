@@ -1,5 +1,6 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class MyCanvas extends Canvas{
@@ -12,11 +13,6 @@ public class MyCanvas extends Canvas{
 		setWidth(width);
 		setHeight(height);
 		this.model = model;
-		
-		setOnMouseClicked(event -> {
-			System.out.println("Mouse Clicked");
-			model.mouseClicked(event);
-		});
 	}
 	
 	public void repaint(Model model, double width, double height) {

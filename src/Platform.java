@@ -3,11 +3,18 @@ import java.util.Random;
 
 public class Platform extends GameObject {
 
+	private boolean isLavaPlatform;
+	
 	public Platform(String imageString, int width, int height, int x, int y) {
-		super(imageString, width, height, x, y);
+		super(imageString, width, height, x, y, false);
 	}
 
-	public void update() {
+	public Platform(String imageString, int width, int height, int x, int y, boolean isLavaPlatform) {
+		this(imageString, width, height, x, y);
+		this.isLavaPlatform = isLavaPlatform;
+	}
+	
+	public void update(double width, double height) {
 		increasePosY(2);
 	}
 

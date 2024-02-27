@@ -1,7 +1,8 @@
 
 import java.io.FileInputStream;
-
+import javafx.geometry.Rectangle2D;
 import graphicscontext_test.GcTester.Point;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,22 +32,27 @@ public abstract class GameObject {
 	private Point position;
 	private Image gameObj;
 	private Size size;
+	private boolean isPlayer;
 	
-	public GameObject(String imageString, int width, int height, int x, int y) {
+	public GameObject(String imageString, int width, int height, int x, int y, boolean isPlayer) {
 		try {
 			gameObj = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
 			System.out.println("Couldn't load image");
 		}
 		position = new Point(x, y);
-		
 		size = new Size(width, height);
+		this.isPlayer = isPlayer;
 	}
 	
-	public abstract void update();
+	public abstract void update(double width, double height);
 
 	public abstract void drawYourself(GraphicsContext gc, double width, double height);
 
+	public Rectangle2D getRectangle() {
+		return new Rectangle2D(position.x, position.y, size.width, size.height);
+	}
+	
 	public void increasePosX(double i) {
 		position.x += i;
 	}
@@ -81,5 +87,17 @@ public abstract class GameObject {
 	
 	public Image getGameObj() {
 		return gameObj;
+	}
+	
+	public boolean getIsPlayer() {
+		return isPlayer;
+	}
+
+	public boolean isDead() {
+		return false;
+	}
+	
+	public void removeLife() {
+		System.out.println("Har inga liv :)");
 	}
 }

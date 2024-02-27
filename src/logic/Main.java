@@ -27,11 +27,11 @@ public class Main extends Application{
 		
 		Frame myFrame = new Frame();
 		
-		menu.getChildren().add(myFrame);
-		Scene mainScene = new Scene(myFrame);
-
-		primaryStage.setTitle("Welcome to Doodle Jump");
-		primaryStage.setScene(mainScene);
-		primaryStage.show();
+//		menu.getChildren().add(myFrame);
+//		Scene mainScene = new Scene(myFrame);
+//
+//		primaryStage.setTitle("Welcome to Doodle Jump");
+//		primaryStage.setScene(mainScene);
+//		primaryStage.show();
 	}
 }
