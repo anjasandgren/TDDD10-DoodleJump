@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Player extends GameObject {
@@ -19,13 +20,15 @@ public class Player extends GameObject {
 	public void update(double width, double height) {
 		if (isGoingUp) {
 			increasePosY(-3);
-			if (counter > 1000) {
+			if (counter > 120) {
 				isGoingUp = false;
+				counter = 0;
 			}
+			counter += 1;
 		} else {
 			increasePosY(3);
 		}
-		counter += 1;
+		
 	}
 
 	@Override
@@ -45,7 +48,8 @@ public class Player extends GameObject {
 	@Override
 	public boolean isDead(ArrayList<GameObject> objects) {
 		if (getPosY() >= 800-getHeight()-3) {
-			return true;
+			isGoingUp = true;
+			return false;
 		} else if (lifes < 0) {
 			return true;
 		} else {
@@ -55,6 +59,16 @@ public class Player extends GameObject {
 				}
 			}
 			return false;
+		}
+	}
+	
+	public void jumps(ArrayList<Rectangle2D> platformRecs) {
+		Rectangle2D playerRec = getRectangle();
+
+		for (Rectangle2D platformRec : platformRecs) {
+			if (playerRec.intersects(platformRec) && !isGoingUp) {
+				isGoingUp = true;
+			}
 		}
 	}
 

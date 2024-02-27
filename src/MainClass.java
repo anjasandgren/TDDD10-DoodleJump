@@ -183,12 +183,9 @@ public class MainClass extends Application{
 //						player.setPosY(700);
 //					}
 //				}
-//				
-//				for (Rectangle2D platformRec : platformRecs) {
-//					if (playerRec.intersects(platformRec) && !player.isGoingUp()) {
-//						player.setToGoingUp();
-//					}
-//				}
+
+				player.jumps(platformRecs);
+				
 				
 			}
 		}.start();

@@ -112,4 +112,7 @@ public abstract class GameObject {
 	public boolean diesFromCollision(Player player) {
 		return false;
 	}
+
+	public void jumps(ArrayList<Rectangle2D> platformRecs) {		
+	}
 }
