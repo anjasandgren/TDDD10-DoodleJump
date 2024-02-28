@@ -32,12 +32,13 @@ public class Monster extends GameObject {
 	}
 
 	@Override
-	public boolean diesFromCollision(Player player) {
+	public boolean diesFromCollision(Player player, Model model) {
 		Rectangle2D playerRec = player.getRectangle();
 		Rectangle2D monsterRec = this.getRectangle();
 	
 		if (playerRec.intersects(monsterRec)) {
 			System.out.println("-1 liv");
+			model.removeObject(this);
 			return true;
 		} else {
 			return false;

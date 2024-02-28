@@ -95,7 +95,7 @@ public abstract class GameObject {
 		return isPlayer;
 	}
 
-	public boolean isDead(ArrayList<GameObject> objects) {
+	public boolean isDead(Model model) {
 		return false;
 	}
 	
@@ -109,7 +109,7 @@ public abstract class GameObject {
 	public void setToGoingUp() {
 	}
 
-	public boolean diesFromCollision(Player player) {
+	public boolean diesFromCollision(Player player, Model model) {
 		return false;
 	}
 

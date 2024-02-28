@@ -27,22 +27,19 @@ public class Platform extends GameObject {
 			setPosX(x);
 			setPosY(0.0);
 		}
-		
-		if (getPosY() < 0) {
-			setPosY(MyCanvas.height);
-		}
 		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
 	}
 	
 	@Override
-	public boolean diesFromCollision(Player player) {
+	public boolean diesFromCollision(Player player, Model model) {
 		if (!isLavaPlatform) {
 			return false;
 		}
 		
 		Rectangle2D playerRec = player.getRectangle();
 		Rectangle2D lavaPlatformRec = this.getRectangle();
-		if (playerRec.intersects(lavaPlatformRec) && player.getSpeed() > 0) {
+		if (playerRec.intersects(lavaPlatformRec) && player.getSpeed() > 0 && getPosY() >= player.getHeight() + player.getPosY() - 3) {
+			model.removeObject(this);
 			return true;
 		}
 		

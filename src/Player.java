@@ -17,7 +17,7 @@ public class Player extends GameObject {
 
 	@Override
 	public void update() {
-		speed += 0.18;
+		speed += 0.22;
 		increasePosY(speed);
 	}
 
@@ -25,7 +25,9 @@ public class Player extends GameObject {
 	public void drawYourself(GraphicsContext gc) {
 		
 		if (getPosX() >= MyCanvas.width) {
-			setPosX(0.0);
+			setPosX(0.0 - getWidth());
+		} else if (getPosX() + getWidth() <= 0) {
+			setPosX(MyCanvas.width);
 		}
 				
 		if (getPosY() > MyCanvas.height-getHeight()) {
@@ -36,16 +38,17 @@ public class Player extends GameObject {
 	}
 	
 	@Override
-	public boolean isDead(ArrayList<GameObject> objects) {
+	public boolean isDead(Model model) {
+		ArrayList<GameObject> objects = model.getObjects();
 		for (GameObject gameObj : objects) {
-			if (gameObj.diesFromCollision(this)) {
+			if (gameObj.diesFromCollision(this, model)) {
 				lifes -= 1;
+				break;
 			}
 		}
-		
 		if (lifes < 0) {
 			return true;
-		} else if (getPosY() >= MyCanvas.height-getHeight()-3) {
+		} else if (getPosY() >= MyCanvas.height-getHeight()) {
 			return false; //ÄNDRA TILL TRUE SEN!
 		} else {
 			return false;
@@ -53,7 +56,6 @@ public class Player extends GameObject {
 	}
 	
 	public void jumps(Model model) {
-		
 		ArrayList<GameObject> objects = model.getObjects();
 		Rectangle2D playerRec = this.getRectangle();
 

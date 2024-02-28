@@ -59,12 +59,12 @@ public class MainClass extends Application{
 		
 		// Create monsters
 		GameObject monster = new Monster("monster.png", 70, 80, 0, -500);
-		GameObject lavaPlatform = new Platform("lava_platform.png", 60, 12, 0, 0, true);
+		GameObject lavaPlatform = new Platform("lava_platform.png", 70, 17, 0, 0, true);
 		model.addObjects(monster);
 		model.addObjects(lavaPlatform);
 		
 		// Create player
-		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -10);
+		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -8);
 		model.addObjects(player);
 
 		
@@ -154,7 +154,7 @@ public class MainClass extends Application{
 				model.update();
 				frame.repaint();
 				
-				if (player.isDead(model.objects)) {
+				if (player.isDead(model)) {
 					primaryStage.setScene(gameOverScene);
 					reset(player, model);
 				}

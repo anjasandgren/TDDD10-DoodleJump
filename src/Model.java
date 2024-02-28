@@ -56,4 +56,8 @@ public class Model {
 	public ArrayList<GameObject> getObjects() {
 		return objects;
 	}
+
+	public void removeObject(GameObject gameObj) {
+		objects.remove(gameObj);
+	}
 }
