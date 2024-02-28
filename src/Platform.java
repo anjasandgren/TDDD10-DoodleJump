@@ -15,21 +15,21 @@ public class Platform extends GameObject {
 		this.isLavaPlatform = isLavaPlatform;
 	}
 	
-	public void update(double width, double height) {
+	public void update() {
 		increasePosY(2);
 	}
 
-	public void drawYourself(GraphicsContext gc, double width, double height) {
-		if (getPosY() >= height) {
+	public void drawYourself(GraphicsContext gc) {
+		if (getPosY() >= MyCanvas.height) {
 			Random rand = new Random();
-			int x = rand.nextInt((int)width - (int)getWidth());
+			int x = rand.nextInt((int)MyCanvas.width - (int)getWidth());
 
 			setPosX(x);
 			setPosY(0.0);
 		}
 		
 		if (getPosY() < 0) {
-			setPosY(height);
+			setPosY(MyCanvas.height);
 		}
 		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
 	}
@@ -39,13 +39,23 @@ public class Platform extends GameObject {
 		if (!isLavaPlatform) {
 			return false;
 		}
-			
+		
 		Rectangle2D playerRec = player.getRectangle();
 		Rectangle2D lavaPlatformRec = this.getRectangle();
-		if (playerRec.intersects(lavaPlatformRec) && !player.isGoingUp()) {
+		if (playerRec.intersects(lavaPlatformRec) && player.getSpeed() > 0) {
 			return true;
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public boolean isPlatform() {
+		return true;
+	}
+	
+	@Override
+	public boolean isLavaPlatform() {
+		return isLavaPlatform;
 	}
 }

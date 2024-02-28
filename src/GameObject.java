@@ -47,9 +47,9 @@ public abstract class GameObject {
 		this.isPlayer = isPlayer;
 	}
 	
-	public abstract void update(double width, double height);
+	public abstract void update();
 
-	public abstract void drawYourself(GraphicsContext gc, double width, double height);
+	public abstract void drawYourself(GraphicsContext gc);
 	
 	public Rectangle2D getRectangle() {
 		return new Rectangle2D(position.x, position.y, size.width, size.height);
@@ -113,6 +113,14 @@ public abstract class GameObject {
 		return false;
 	}
 
-	public void jumps(ArrayList<Rectangle2D> platformRecs) {		
+	public void jumps(Model model) {		
+	}
+	
+	public boolean isPlatform() {
+		return false;
+	}
+
+	public boolean isLavaPlatform() {
+		return false;
 	}
 }

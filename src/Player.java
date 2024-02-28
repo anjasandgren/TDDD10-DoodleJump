@@ -1,45 +1,35 @@
 import java.util.ArrayList;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Player extends GameObject {
 
 	private int lifes;
-	private boolean isGoingUp;
 	private int counter;
+	private double speed;
 	
-	public Player(String imageString, int width, int height, double x, double y) {
+	public Player(String imageString, int width, int height, double x, double y, double speed) {
 		super(imageString, width, height, x, y, true);
-		lifes = 0;
+		lifes = 2;
 		counter = 0;
-		isGoingUp = true;
+		this.speed = speed;
 	}
 
 	@Override
-	public void update(double width, double height) {
-		if (isGoingUp) {
-			increasePosY(-3);
-			if (counter > 120) {
-				isGoingUp = false;
-				counter = 0;
-			}
-			counter += 1;
-		} else {
-			increasePosY(3);
-		}
-		
+	public void update() {
+		speed += 0.18;
+		increasePosY(speed);
 	}
 
 	@Override
-	public void drawYourself(GraphicsContext gc, double width, double height) {
+	public void drawYourself(GraphicsContext gc) {
 		
-		if (getPosX() >= width) {
+		if (getPosX() >= MyCanvas.width) {
 			setPosX(0.0);
 		}
 				
-		if (getPosY() < 0-getHeight()) {
-			setPosY(height - getHeight());
+		if (getPosY() > MyCanvas.height-getHeight()) {
+			speed = -10;
 		}
 
 		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
@@ -47,27 +37,32 @@ public class Player extends GameObject {
 	
 	@Override
 	public boolean isDead(ArrayList<GameObject> objects) {
-		if (getPosY() >= 800-getHeight()-3) {
-			isGoingUp = true;
-			return false;
-		} else if (lifes < 0) {
-			return true;
-		} else {
-			for (GameObject gameObj : objects) {
-				if (gameObj.diesFromCollision(this)) {
-					return true;
-				}
+		for (GameObject gameObj : objects) {
+			if (gameObj.diesFromCollision(this)) {
+				lifes -= 1;
 			}
+		}
+		
+		if (lifes < 0) {
+			return true;
+		} else if (getPosY() >= MyCanvas.height-getHeight()-3) {
+			return false; //ÄNDRA TILL TRUE SEN!
+		} else {
 			return false;
 		}
 	}
 	
-	public void jumps(ArrayList<Rectangle2D> platformRecs) {
-		Rectangle2D playerRec = getRectangle();
+	public void jumps(Model model) {
+		
+		ArrayList<GameObject> objects = model.getObjects();
+		Rectangle2D playerRec = this.getRectangle();
 
-		for (Rectangle2D platformRec : platformRecs) {
-			if (playerRec.intersects(platformRec) && !isGoingUp) {
-				isGoingUp = true;
+		for (GameObject gameObj : objects) {
+			if (gameObj.isPlatform() && !gameObj.isLavaPlatform()) {
+				Rectangle2D platformRec = gameObj.getRectangle();
+				if (playerRec.intersects(platformRec) && speed > 0) {
+					speed = -10;
+				}
 			}
 		}
 	}
@@ -76,11 +71,11 @@ public class Player extends GameObject {
 		lifes -= 1;
 	}
 	
-	public boolean isGoingUp() {
-		return isGoingUp;
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 	
-	public void setToGoingUp() {
-		isGoingUp = true;
+	public double getSpeed() {
+		return speed;
 	}
 }

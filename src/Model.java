@@ -10,9 +10,9 @@ public class Model {
 	
 	ArrayList<GameObject> objects = new ArrayList<>();
 	
-	public void update(double width, double height) {
+	public void update() {
 		for (GameObject gameObject : objects) {
-			gameObject.update(width, height);
+			gameObject.update();
 		}
 	}
 	
@@ -35,13 +35,13 @@ public class Model {
 		return null;
 	}
 
-	public void repaint(GraphicsContext gc, double width, double height) {
-		gc.clearRect(0, 0, width, height);
+	public void repaint(GraphicsContext gc) {
+		gc.clearRect(0, 0, MyCanvas.width, MyCanvas.height);
 		gc.setFill(Color.LIGHTBLUE);
-		gc.fillRect(0, 0, width, height);
+		gc.fillRect(0, 0, MyCanvas.width, MyCanvas.height);
 		
 		for (GameObject gameObject : objects) {
-			gameObject.drawYourself(gc, width, height);
+			gameObject.drawYourself(gc);
 		}
 	}
 	
@@ -51,5 +51,9 @@ public class Model {
 
 	public void removeLife() {
 		getPlayer().removeLife();
+	}
+
+	public ArrayList<GameObject> getObjects() {
+		return objects;
 	}
 }

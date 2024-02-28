@@ -35,9 +35,9 @@ public class MainClass extends Application{
 		startMenu.getChildren().add(quitButton);
 
 		startMenu.setAlignment(Pos.CENTER);
-
-		Scene startScene = new Scene(startMenu, 800, 400);
+		
 		MyCanvas frame = new MyCanvas(model);
+		Scene startScene = new Scene(startMenu, MyCanvas.width, MyCanvas.height);
 
 		
 		// Create platforms
@@ -64,7 +64,7 @@ public class MainClass extends Application{
 		model.addObjects(lavaPlatform);
 		
 		// Create player
-		GameObject player = new Player("elephant.png", 60, 80, 0, 700);
+		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -10);
 		model.addObjects(player);
 
 		
@@ -91,7 +91,6 @@ public class MainClass extends Application{
 		});
 		
 		primaryScene.setOnKeyPressed(event -> {
-			System.out.println("Key Pressed");
 			if (event.getCode() == KeyCode.ESCAPE) {
 				primaryStage.setScene(startScene);
 			} else {
@@ -152,49 +151,22 @@ public class MainClass extends Application{
 		new AnimationTimer() {
 			@Override
 			public void handle(long arg0) {
-				model.update(frame.getWidth(), frame.getHeight());
-				frame.repaint(model, frame.getWidth(), frame.getHeight());
+				model.update();
+				frame.repaint();
 				
 				if (player.isDead(model.objects)) {
 					primaryStage.setScene(gameOverScene);
 					reset(player, model);
 				}
-				
-//				//Hämtar dessas rektanglar utifrån deras position just nu
-//				Rectangle2D playerRec = player.getRectangle();
-//				Rectangle2D monsterRec = monster.getRectangle();
-//				Rectangle2D lavaRec = lavaPlatform.getRectangle();
-//				
-//				//Kollar kollision
-//				if (playerRec.intersects(monsterRec)) {
-//					model.getPlayer().removeLife();
-//					if (player.isDead()) {
-//						primaryStage.setScene(gameOverScene);
-//						player.setPosX(0);
-//						player.setPosY(700);
-//					}
-//				}
-//				
-//				if (playerRec.intersects(lavaRec)) {
-//					player.removeLife();
-//					if (player.isDead()) {
-//						primaryStage.setScene(gameOverScene);
-//						player.setPosX(0);
-//						player.setPosY(700);
-//					}
-//				}
+				player.jumps(model);
 
-				player.jumps(platformRecs);
-				
-				
-			}
-		}.start();
+			}}.start();
 		
 		primaryStage.show();
 	}
 
 	protected void reset(GameObject player, Model model) {
-		//TODO: Reset all gameObjects and the model 
+		//TODO: Reset all gameObjects and the model
 		player.setPosX(0);
 		player.setPosY(500);
 	}

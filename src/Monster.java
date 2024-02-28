@@ -11,10 +11,10 @@ public class Monster extends GameObject {
 	}
 
 	@Override
-	public void update(double width, double height) {
+	public void update() {
 		if (isGoingRight) {
 			increasePosX(5);
-			if (getPosX() + 70 > width) {
+			if (getPosX() + 70 > MyCanvas.width) {
 				isGoingRight = false;
 			} 
 		} else {
@@ -27,7 +27,7 @@ public class Monster extends GameObject {
 	}
 
 	@Override
-	public void drawYourself(GraphicsContext gc, double width, double height) {
+	public void drawYourself(GraphicsContext gc) {
 		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
 	}
 
@@ -37,6 +37,7 @@ public class Monster extends GameObject {
 		Rectangle2D monsterRec = this.getRectangle();
 	
 		if (playerRec.intersects(monsterRec)) {
+			System.out.println("-1 liv");
 			return true;
 		} else {
 			return false;
