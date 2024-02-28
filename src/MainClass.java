@@ -1,4 +1,9 @@
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
@@ -23,7 +28,6 @@ public class MainClass extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		Model model = new Model();
-		
 		VBox startMenu = new VBox();
 		
 		Button startButton = new Button("PLAY");
@@ -39,7 +43,6 @@ public class MainClass extends Application{
 		MyCanvas frame = new MyCanvas(model);
 		Scene startScene = new Scene(startMenu, MyCanvas.width, MyCanvas.height);
 
-		
 		// Create platforms
 		ArrayList<Rectangle2D> platformRecs = new ArrayList<>();
 		double y = 0;
@@ -66,8 +69,8 @@ public class MainClass extends Application{
 		// Create player
 		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -8);
 		model.addObjects(player);
-
 		
+		// Create structure
 		VBox SidePanel = new VBox();
 		Label scorelabel = new Label("Score " + getScore());
 		HBox layout = new HBox();
@@ -99,22 +102,47 @@ public class MainClass extends Application{
 		});
 		
 		VBox gameOver = new VBox();
+		String score = "345", highScore1 = "500", highScore2 = "465", highScore3 = "355";
 		
-		String score, highScore1, highScore2, highScore3;
+		// If new highscore
+//		if (Integer.parseInt(score) >= Integer.parseInt(highScore3)) {
+//			ObjectOutputStream out = null;
+//			System.out.println("Success!");
+//
+//				if (Integer.parseInt(score) >= Integer.parseInt(highScore1)) {
+//					// Nytt HS
+//					out = new ObjectOutputStream(new FileOutputStream(highScore1));
+//					out.writeObject(score);
+//					highScore3 = highScore2;
+//					highScore2 = highScore1;
+//					highScore1 = score;
+//					System.out.println("Success!");
+//
+//				} else if (Integer.parseInt(score) >= Integer.parseInt(highScore2)) {
+//					// If second best
+//					out = new ObjectOutputStream(new FileOutputStream(highScore2));
+//					out.writeObject(score);
+//					highScore3 = highScore2;
+//					highScore2 = score;
+//				} else {
+//					// Third best
+//					out = new ObjectOutputStream(new FileOutputStream(highScore3));
+//					out.writeObject(score);
+//					highScore3 = score;
+//				}
+//				out.close();
+//	}
+
 		
 		//TODO, läs in istället för hårdkoda
-		score = "300";
-		highScore1 = "500";
-		highScore2 = "465";
-		highScore3 = "567";
-		
 		Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
 		gameOver.getChildren().add(gameOverLabel);
 		
 		if (Integer.parseInt(score) > Integer.parseInt(highScore1)) {
-			highScore1 = score;
-			highScore2 = highScore1;
 			highScore3 = highScore2;
+			highScore2 = highScore1;
+			highScore1 = score;
+
 			Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
 			Label scoreLabel = new Label(score + "\n\n\n");
 			gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);

@@ -3,7 +3,6 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.Random;
 
 public class Platform extends GameObject {
-
 	private boolean isLavaPlatform;
 	
 	public Platform(String imageString, int width, int height, double x, double y) {
@@ -23,7 +22,6 @@ public class Platform extends GameObject {
 		if (getPosY() >= MyCanvas.height) {
 			Random rand = new Random();
 			int x = rand.nextInt((int)MyCanvas.width - (int)getWidth());
-
 			setPosX(x);
 			setPosY(0.0);
 		}
@@ -42,7 +40,6 @@ public class Platform extends GameObject {
 			model.removeObject(this);
 			return true;
 		}
-		
 		return false;
 	}
 	

@@ -3,7 +3,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import javafx.geometry.Rectangle2D;
-import graphicscontext_test.GcTester.Point;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

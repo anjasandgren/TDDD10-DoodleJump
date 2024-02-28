@@ -3,15 +3,12 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Player extends GameObject {
-
 	private int lifes;
-	private int counter;
 	private double speed;
 	
 	public Player(String imageString, int width, int height, double x, double y, double speed) {
 		super(imageString, width, height, x, y, true);
-		lifes = 2;
-		counter = 0;
+		lifes = 1;
 		this.speed = speed;
 	}
 

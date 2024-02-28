@@ -2,7 +2,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Monster extends GameObject {
-
 	private boolean isGoingRight;
 	
 	public Monster(String imageString, int width, int height, int x, int y) {

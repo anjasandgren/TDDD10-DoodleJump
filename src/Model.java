@@ -7,7 +7,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Model {
-	
 	ArrayList<GameObject> objects = new ArrayList<>();
 	
 	public void update() {
