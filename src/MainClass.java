@@ -66,6 +66,12 @@ public class MainClass extends Application{
 		model.addObjects(monster);
 		model.addObjects(lavaPlatform);
 		
+		// Create powerups
+		GameObject boots = new Boots("boots.png", 30, 50, 40, -600);
+		GameObject lifes = new Lifes("lifes.png", 60, 50, 150, -600);
+		model.addObjects(boots);
+		model.addObjects(lifes);
+		
 		// Create player
 		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -8);
 		model.addObjects(player);
@@ -131,7 +137,13 @@ public class MainClass extends Application{
 //					highScore3 = score;
 //				}
 //				out.close();
-//	}
+////	}
+//		ObjectInputStream in = null;
+//		in = new ObjectInputStream(new FileInputStream(highScore1));
+//		highScore1 = (String) in.readObject();
+//		System.out.println(highScore1);
+//		in.close();
+
 
 		
 		//TODO, läs in istället för hårdkoda
@@ -187,6 +199,9 @@ public class MainClass extends Application{
 					reset(player, model);
 				}
 				player.jumps(model);
+				boots.collision(player, model);
+				lifes.collision(player, model);
+
 
 			}}.start();
 		

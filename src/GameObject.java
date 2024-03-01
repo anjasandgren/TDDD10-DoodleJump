@@ -122,4 +122,7 @@ public abstract class GameObject {
 	public boolean isLavaPlatform() {
 		return false;
 	}
+
+	public void collision(GameObject player, Model model) {		
+	}
 }

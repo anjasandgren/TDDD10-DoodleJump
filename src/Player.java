@@ -5,11 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 public class Player extends GameObject {
 	private int lifes;
 	private double speed;
+	private ArrayList<GameObject> objects;
 	
 	public Player(String imageString, int width, int height, double x, double y, double speed) {
 		super(imageString, width, height, x, y, true);
 		lifes = 1;
 		this.speed = speed;
+		objects = new ArrayList<GameObject>();
 	}
 
 	@Override
@@ -66,6 +68,10 @@ public class Player extends GameObject {
 		}
 	}
 
+	public void addObject(GameObject gameObj) {
+		objects.add(gameObj);
+	}
+	
 	public void removeLife() {
 		lifes -= 1;
 	}
