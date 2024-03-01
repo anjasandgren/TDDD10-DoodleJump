@@ -3,11 +3,8 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import javafx.geometry.Rectangle2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 
 public abstract class GameObject {
 
@@ -30,12 +27,15 @@ public abstract class GameObject {
 			this.height = height;
 		}
 	}
+	
 	private Point position;
 	private Image gameObj;
 	private Size size;
+	private double speed;
+	private boolean isShown = true;
 	private boolean isPlayer;
 	
-	public GameObject(String imageString, int width, int height, double x, double y, boolean isPlayer) {
+	public GameObject(String imageString, int width, int height, double x, double y, boolean isPlayer, double speed) {
 		try {
 			gameObj = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
@@ -44,14 +44,38 @@ public abstract class GameObject {
 		position = new Point(x, y);
 		size = new Size(width, height);
 		this.isPlayer = isPlayer;
+		this.speed = speed;
 	}
 	
-	public abstract void update();
-
+	public void update() {
+	}
+	
+	public void update(Model model) {
+	}
+	
 	public abstract void drawYourself(GraphicsContext gc);
 	
 	public Rectangle2D getRectangle() {
 		return new Rectangle2D(position.x, position.y, size.width, size.height);
+	}
+	
+	public boolean collides(GameObject obj1, GameObject obj2) {
+		Rectangle2D obj1Rec = obj1.getRectangle();
+		Rectangle2D obj2Rec = obj2.getRectangle();
+		
+		if (obj1 == obj2 || obj1.getPosY() <= 0 || obj2.getPosY() <= 0 || !obj1.isShown() || !obj2.isShown()) {
+			return false;
+		} else if (obj1Rec.intersects(obj2Rec)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void collideHandler(ArrayList<GameObject> objects) {
+	}
+	
+	public void collidesWithPlayer(GameObject player) {
 	}
 	
 	public void increasePosX(double i) {
@@ -108,7 +132,7 @@ public abstract class GameObject {
 	public void setToGoingUp() {
 	}
 
-	public boolean diesFromCollision(Player player, Model model) {
+	public boolean diesFromCollision(GameObject player) {
 		return false;
 	}
 
@@ -122,7 +146,34 @@ public abstract class GameObject {
 	public boolean isLavaPlatform() {
 		return false;
 	}
+	
+	public void setIsShown(boolean b) {
+		isShown = b;
+	}
+	
+	public boolean isShown() {
+		return isShown;
+	}
+	
+	public int getScore() {
+		return 0;
+	}
+	
+	public void increaseSpeed(double acceleration) {
+		speed += acceleration;
+	}
+	
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	
+	public double getSpeed() {
+		return speed;
+	}
 
-	public void collision(GameObject player, Model model) {		
+	public void addLife() {
+	}
+
+	public void setHasBoots(boolean b) {		
 	}
 }

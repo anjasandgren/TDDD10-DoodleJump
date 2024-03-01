@@ -1,9 +1,8 @@
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Model {
@@ -11,7 +10,13 @@ public class Model {
 	
 	public void update() {
 		for (GameObject gameObject : objects) {
+			gameObject.update(this);
 			gameObject.update();
+			try {
+				if (getPlayer().collides(getPlayer(), gameObject)) {
+					gameObject.diesFromCollision(getPlayer());
+				}
+			} catch (Exception e) {}
 		}
 	}
 	

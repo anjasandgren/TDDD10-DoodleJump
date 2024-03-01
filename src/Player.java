@@ -1,23 +1,42 @@
+
 import java.util.ArrayList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Player extends GameObject {
-	private int lifes;
-	private double speed;
-	private ArrayList<GameObject> objects;
+	
+	private int lifes = 1;
+	private int score = 0;
+	private int timeCounter = 0; //60 is one second
+	private int bootCounter = 0;
+	private boolean hasBoots = false;
 	
 	public Player(String imageString, int width, int height, double x, double y, double speed) {
-		super(imageString, width, height, x, y, true);
-		lifes = 1;
-		this.speed = speed;
-		objects = new ArrayList<GameObject>();
+		super(imageString, width, height, x, y, true, speed);
 	}
 
 	@Override
-	public void update() {
-		speed += 0.22;
+	public void update(Model model) {
+		if (bootCounter > 300) {
+			setHasBoots(false);
+			bootCounter = 0;
+		}
+		
+		double speed; 
+		if (hasBoots) {
+			speed = getSpeed() - 5;
+			bootCounter += 1;
+		} else {
+			speed = getSpeed();
+		}
+		jumps(model);
+		increaseSpeed(0.4);
 		increasePosY(speed);
+		if (timeCounter >= 30) {
+			score += 5;
+			timeCounter = 0;
+		}
+		timeCounter += 1;
 	}
 
 	@Override
@@ -30,7 +49,7 @@ public class Player extends GameObject {
 		}
 				
 		if (getPosY() > MyCanvas.height-getHeight()) {
-			speed = -10;
+			setSpeed(-10);
 		}
 
 		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
@@ -38,13 +57,6 @@ public class Player extends GameObject {
 	
 	@Override
 	public boolean isDead(Model model) {
-		ArrayList<GameObject> objects = model.getObjects();
-		for (GameObject gameObj : objects) {
-			if (gameObj.diesFromCollision(this, model)) {
-				lifes -= 1;
-				break;
-			}
-		}
 		if (lifes < 0) {
 			return true;
 		} else if (getPosY() >= MyCanvas.height-getHeight()) {
@@ -61,26 +73,35 @@ public class Player extends GameObject {
 		for (GameObject gameObj : objects) {
 			if (gameObj.isPlatform() && !gameObj.isLavaPlatform()) {
 				Rectangle2D platformRec = gameObj.getRectangle();
-				if (playerRec.intersects(platformRec) && speed > 0) {
-					speed = -10;
+				if (playerRec.intersects(platformRec) && getSpeed() > 0.0) {
+					setSpeed(-10);
 				}
 			}
 		}
 	}
-
-	public void addObject(GameObject gameObj) {
-		objects.add(gameObj);
+	
+	public void collideHandler(ArrayList<GameObject> objects) {
+		for (GameObject gameObj : objects) {
+			if (collides(this, gameObj)) {
+				gameObj.collidesWithPlayer(this);
+			}
+		}
 	}
 	
 	public void removeLife() {
 		lifes -= 1;
 	}
 	
-	public void setSpeed(double speed) {
-		this.speed = speed;
+	@Override
+	public void addLife() {
+		lifes += 1;
 	}
-	
-	public double getSpeed() {
-		return speed;
+	@Override
+	public int getScore() {
+		return score;
+	}
+
+	public void setHasBoots(boolean b) {
+		hasBoots = b;
 	}
 }

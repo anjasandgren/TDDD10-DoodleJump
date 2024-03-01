@@ -1,7 +1,6 @@
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 
 public class MyCanvas extends Canvas{
 	private Model model;

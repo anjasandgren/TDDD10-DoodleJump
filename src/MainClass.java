@@ -5,11 +5,9 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -20,75 +18,96 @@ import javafx.stage.Stage;
 
 public class MainClass extends Application{
 
+	private GameLevel level;
+	private ArrayList<String> highscores;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+	
+	//Model
+		Model model = new Model();		
 		
-		Model model = new Model();
+	// Start Menu Scene
 		VBox startMenu = new VBox();
-		
 		Button startButton = new Button("PLAY");
 		Button hsButton = new Button("High Score");
 		Button quitButton = new Button("QUIT");
-		
 		startMenu.getChildren().add(startButton);
 		startMenu.getChildren().add(hsButton);
 		startMenu.getChildren().add(quitButton);
-
-		startMenu.setAlignment(Pos.CENTER);
+		startMenu.setAlignment(Pos.CENTER);Scene startMenuScene = new Scene(startMenu, MyCanvas.width, MyCanvas.height);
+		primaryStage.setScene(startMenuScene);
 		
+		
+	// Level Menu Scene
+		VBox levelMenu = new VBox();
+		Button level1Button = new Button("Level1");
+		Button level2Button = new Button("Level2");
+		levelMenu.getChildren().add(level1Button);
+		levelMenu.getChildren().add(level2Button);
+		levelMenu.setAlignment(Pos.CENTER);
+		Scene levelScene = new Scene(levelMenu, MyCanvas.width, MyCanvas.height);
+		
+		
+	// Game Scene
+		VBox SidePanel = new SidePanel();
 		MyCanvas frame = new MyCanvas(model);
-		Scene startScene = new Scene(startMenu, MyCanvas.width, MyCanvas.height);
-
-		// Create platforms
-		ArrayList<Rectangle2D> platformRecs = new ArrayList<>();
-		double y = 0;
-		
-		for (int i = 0; i<10; ++i) {
-			Random randX = new Random();
-			double x = randX.nextInt(700);
-
-			GameObject platform = new Platform("platform.png", 60, 40, x, y);
-			y += frame.getHeight() / 10;
-			
-			model.addObjects(platform);
-			
-			Rectangle2D platformRec = platform.getRectangle();
-			platformRecs.add(platformRec);
-		}
-		
-		// Create monsters
-		GameObject monster = new Monster("monster.png", 70, 80, 0, -500);
-		GameObject lavaPlatform = new Platform("lava_platform.png", 70, 17, 0, 0, true);
-		model.addObjects(monster);
-		model.addObjects(lavaPlatform);
-		
-		// Create powerups
-		GameObject boots = new Boots("boots.png", 30, 50, 40, -600);
-		GameObject lifes = new Lifes("lifes.png", 60, 50, 150, -600);
-		model.addObjects(boots);
-		model.addObjects(lifes);
-		
-		// Create player
-		GameObject player = new Player("elephant.png", 60, 80, 0, 700, -8);
-		model.addObjects(player);
-		
-		// Create structure
-		VBox SidePanel = new VBox();
-		Label scorelabel = new Label("Score " + getScore());
 		HBox layout = new HBox();
 		layout.getChildren().add(frame);
-		SidePanel.getChildren().add(scorelabel);
 		layout.getChildren().add(SidePanel);
-		Scene primaryScene = new Scene(layout);
+		Scene gameScene = new Scene(layout, MyCanvas.width + 70, MyCanvas.height);
 		
-		primaryStage.setScene(startScene);
 		
+	// Game Over Scene
+		VBox gameOver = new VBox();
+		String score = "600"; //TODO: int score = player.getScore(); eller level.getScore();
+		String highScore1 = "500", highScore2 = "465", highScore3 = "355"; //TODO: Läs in istället för hårdkoda
+		
+		Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
+		gameOver.getChildren().add(gameOverLabel);
+		
+		if (Integer.parseInt(score) > Integer.parseInt(highScore1)) {
+			highScore3 = highScore2;
+			highScore2 = highScore1;
+			highScore1 = String.valueOf(score);
+
+			Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
+			Label scoreLabel = new Label(score + "\n\n\n");
+			gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
+		} else {
+			Label scoreLabel = new Label("Your Score: " + score + "\n\n\n");
+			Label highScoreLabel = new Label ("Top 3 Scores: ");
+			Label highScore1Label = new Label(highScore1);
+			Label highScore2Label = new Label(highScore2);
+			Label highScore3Label = new Label(highScore3 + "\n \n");
+			gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
+		}
+		
+		HBox buttonsPanel = new HBox();
+		Button playAgainButton = new Button("PLAY AGAIN");
+		Button startMenuButton = new Button("START MENU");
+		buttonsPanel.getChildren().add(playAgainButton);
+		buttonsPanel.getChildren().add(startMenuButton);
+		buttonsPanel.setAlignment(Pos.CENTER);
+		gameOver.getChildren().add(buttonsPanel);
+		gameOver.setAlignment(Pos.CENTER);
+
+		Scene gameOverScene = new Scene(gameOver, MyCanvas.width, MyCanvas.height);
+		
+
+	// Actions for buttons
 		startButton.setOnAction(event -> {
-			primaryStage.setScene(primaryScene);
+			int highscore = 600; //TODO, läs in från fil istället
+			if (highscore > 500) {
+				primaryStage.setScene(levelScene);
+			} else {
+				level = new GameLevel(model, false);
+				primaryStage.setScene(gameScene);
+			}
 		});
 		
 		hsButton.setOnAction(event -> {
@@ -96,21 +115,48 @@ public class MainClass extends Application{
 		});
 		
 		quitButton.setOnAction(event -> {
-			System.out.println("quit pressed");
+			primaryStage.close();
 		});
 		
-		primaryScene.setOnKeyPressed(event -> {
+		level1Button.setOnAction(event -> {
+			GameLevel level1 = new GameLevel(model, false);
+			level = level1;
+//			gameIsRunning = true;
+			primaryStage.setScene(gameScene);
+		});
+		
+		level2Button.setOnAction(event -> {
+			GameLevel level2 = new GameLevel(model, true);
+			level = level2;
+//			gameIsRunning = true;
+			primaryStage.setScene(gameScene);
+		});
+		
+		playAgainButton.setOnAction(event -> {
+			int highscore = 600; //TODO: Läs in från fil istället
+			if (highscore > 500) {
+				primaryStage.setScene(levelScene);
+			} else {
+				level = new GameLevel(model, false);
+				primaryStage.setScene(gameScene);
+			}
+		});
+		
+		startMenuButton.setOnAction(event -> {
+			primaryStage.setScene(startMenuScene);
+		});
+		
+		gameScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ESCAPE) {
-				primaryStage.setScene(startScene);
+				primaryStage.setScene(startMenuScene);
 			} else {
 				model.keyPressed(event);
 			}
 		});
 		
-		VBox gameOver = new VBox();
-		String score = "345", highScore1 = "500", highScore2 = "465", highScore3 = "355";
 		
-		// If new highscore
+		
+//	// High Score handler (new class in logic?)
 //		if (Integer.parseInt(score) >= Integer.parseInt(highScore3)) {
 //			ObjectOutputStream out = null;
 //			System.out.println("Success!");
@@ -137,56 +183,12 @@ public class MainClass extends Application{
 //					highScore3 = score;
 //				}
 //				out.close();
-////	}
+//		}
 //		ObjectInputStream in = null;
 //		in = new ObjectInputStream(new FileInputStream(highScore1));
 //		highScore1 = (String) in.readObject();
 //		System.out.println(highScore1);
 //		in.close();
-
-
-		
-		//TODO, läs in istället för hårdkoda
-		Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
-		gameOver.getChildren().add(gameOverLabel);
-		
-		if (Integer.parseInt(score) > Integer.parseInt(highScore1)) {
-			highScore3 = highScore2;
-			highScore2 = highScore1;
-			highScore1 = score;
-
-			Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
-			Label scoreLabel = new Label(score + "\n\n\n");
-			gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
-		} else {
-			Label scoreLabel = new Label("Your Score: " + score + "\n\n\n");
-			Label highScoreLabel = new Label ("Top 3 Scores: ");
-			Label highScore1Label = new Label(highScore1);
-			Label highScore2Label = new Label(highScore2);
-			Label highScore3Label = new Label(highScore3 + "\n \n");
-			gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
-		}
-		
-		HBox buttonsPanel = new HBox();
-		Button playAgainButton = new Button("PLAY AGAIN");
-		Button startMenuButton = new Button("START MENU");
-		
-		playAgainButton.setOnAction(event -> {
-			primaryStage.setScene(primaryScene);
-		});
-		
-		startMenuButton.setOnAction(event -> {
-			primaryStage.setScene(startScene);
-		});
-		
-		buttonsPanel.getChildren().add(playAgainButton);
-		buttonsPanel.getChildren().add(startMenuButton);
-		buttonsPanel.setAlignment(Pos.CENTER);
-
-		gameOver.getChildren().add(buttonsPanel);
-		gameOver.setAlignment(Pos.CENTER);
-
-		Scene gameOverScene = new Scene(gameOver, 800, 400);
 
 		new AnimationTimer() {
 			@Override
@@ -194,27 +196,30 @@ public class MainClass extends Application{
 				model.update();
 				frame.repaint();
 				
-				if (player.isDead(model)) {
-					primaryStage.setScene(gameOverScene);
-					reset(player, model);
-				}
-				player.jumps(model);
-				boots.collision(player, model);
-				lifes.collision(player, model);
-
-
-			}}.start();
-		
+				try {
+					GameObject player = model.getPlayer();
+					if (player.isDead(model)) {
+						primaryStage.setScene(gameOverScene);
+						reset(level, model);
+					}
+					
+					player.collideHandler(model.getObjects());
+					
+					
+					if (level.getBoots().collides(player, level.getBoots())) {
+						//
+					}
+					if (level.getLife().collides(player, level.getLife())) {
+						//
+					}
+				} catch (Exception e) {}
+			}
+		}.start();
 		primaryStage.show();
 	}
-
-	protected void reset(GameObject player, Model model) {
-		//TODO: Reset all gameObjects and the model
-		player.setPosX(0);
-		player.setPosY(500);
-	}
-
-	private String getScore() {
-		return "300";
+	
+	protected void reset(GameLevel level, Model model) {
+//		gameIsRunning = false;
+		// Update high score here
 	}
 }
