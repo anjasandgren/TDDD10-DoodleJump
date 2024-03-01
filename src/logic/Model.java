@@ -1,5 +1,8 @@
+package logic;
 
 import java.util.ArrayList;
+
+import game_objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,7 +14,6 @@ public class Model {
 	public void update() {
 		for (GameObject gameObject : objects) {
 			gameObject.update(this);
-			gameObject.update();
 			try {
 				if (getPlayer().collides(getPlayer(), gameObject)) {
 					gameObject.diesFromCollision(getPlayer());
@@ -22,11 +24,9 @@ public class Model {
 	
 	public void keyPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.RIGHT) {
-			getPlayer().increasePosX(10);
+			getPlayer().increasePosX(20);
 		} else if (event.getCode() == KeyCode.LEFT) {
-			getPlayer().increasePosX(-10);
-		} else {
-			
+			getPlayer().increasePosX(-20);
 		}
 	}
 
@@ -51,10 +51,6 @@ public class Model {
 	
 	public void addObjects(GameObject object) {
 		objects.add(object);
-	}
-
-	public void removeLife() {
-		getPlayer().removeLife();
 	}
 
 	public ArrayList<GameObject> getObjects() {

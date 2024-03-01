@@ -1,10 +1,11 @@
+package game_objects;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import logic.Model;
 
 public abstract class GameObject {
 
@@ -28,14 +29,13 @@ public abstract class GameObject {
 		}
 	}
 	
-	private Point position;
 	private Image gameObj;
+	private Point position;
 	private Size size;
 	private double speed;
 	private boolean isShown = true;
-	private boolean isPlayer;
 	
-	public GameObject(String imageString, int width, int height, double x, double y, boolean isPlayer, double speed) {
+	public GameObject(String imageString, int width, int height, double x, double y, double speed) {
 		try {
 			gameObj = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
@@ -43,15 +43,10 @@ public abstract class GameObject {
 		}
 		position = new Point(x, y);
 		size = new Size(width, height);
-		this.isPlayer = isPlayer;
 		this.speed = speed;
 	}
 	
-	public void update() {
-	}
-	
-	public void update(Model model) {
-	}
+	public abstract void update(Model model);
 	
 	public abstract void drawYourself(GraphicsContext gc);
 	
@@ -75,7 +70,7 @@ public abstract class GameObject {
 	public void collideHandler(ArrayList<GameObject> objects) {
 	}
 	
-	public void collidesWithPlayer(GameObject player) {
+	public void collidesWithPlayer(Player player) {
 	}
 	
 	public void increasePosX(double i) {
@@ -115,28 +110,11 @@ public abstract class GameObject {
 	}
 	
 	public boolean getIsPlayer() {
-		return isPlayer;
-	}
-
-	public boolean isDead(Model model) {
 		return false;
-	}
-	
-	public void removeLife() {
-	}
-
-	public boolean isGoingUp() {
-		return false;
-	}
-
-	public void setToGoingUp() {
 	}
 
 	public boolean diesFromCollision(GameObject player) {
 		return false;
-	}
-
-	public void jumps(Model model) {		
 	}
 	
 	public boolean isPlatform() {
@@ -147,16 +125,12 @@ public abstract class GameObject {
 		return false;
 	}
 	
-	public void setIsShown(boolean b) {
-		isShown = b;
+	public void setIsShown(boolean isShown) {
+		this.isShown = isShown;
 	}
 	
 	public boolean isShown() {
 		return isShown;
-	}
-	
-	public int getScore() {
-		return 0;
 	}
 	
 	public void increaseSpeed(double acceleration) {
@@ -169,11 +143,5 @@ public abstract class GameObject {
 	
 	public double getSpeed() {
 		return speed;
-	}
-
-	public void addLife() {
-	}
-
-	public void setHasBoots(boolean b) {		
 	}
 }

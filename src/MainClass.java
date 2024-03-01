@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import graphic.GameLevel;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -15,10 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import logic.Model;
+import logic.MyCanvas;
+import graphic.SidePanel;
+import game_objects.*;
 
 public class MainClass extends Application{
 
 	private GameLevel level;
+	private Player player;
 	private ArrayList<String> highscores;
 	
 	public static void main(String[] args) {
@@ -54,23 +60,26 @@ public class MainClass extends Application{
 		
 		
 	// Game Scene
-		VBox SidePanel = new SidePanel();
+		SidePanel sidePanel = new SidePanel();
 		MyCanvas frame = new MyCanvas(model);
 		HBox layout = new HBox();
 		layout.getChildren().add(frame);
-		layout.getChildren().add(SidePanel);
+		layout.getChildren().add(sidePanel);
 		Scene gameScene = new Scene(layout, MyCanvas.width + 70, MyCanvas.height);
 		
 		
 	// Game Over Scene
 		VBox gameOver = new VBox();
-		String score = "600"; //TODO: int score = player.getScore(); eller level.getScore();
+		int score = 300;
+		try {
+			score = player.getScore(); //TODO: Detta blir alltid noll nu eftersom scoret hämtas en gång, och det är innan spelet börjar... Hämta scoret efter att player dött!!
+		} catch (Exception e) {}
 		String highScore1 = "500", highScore2 = "465", highScore3 = "355"; //TODO: Läs in istället för hårdkoda
 		
 		Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
 		gameOver.getChildren().add(gameOverLabel);
 		
-		if (Integer.parseInt(score) > Integer.parseInt(highScore1)) {
+		if (score > Integer.parseInt(highScore1)) {
 			highScore3 = highScore2;
 			highScore2 = highScore1;
 			highScore1 = String.valueOf(score);
@@ -101,11 +110,12 @@ public class MainClass extends Application{
 
 	// Actions for buttons
 		startButton.setOnAction(event -> {
-			int highscore = 600; //TODO, läs in från fil istället
+			int highscore = 300; //TODO, läs in från fil istället
 			if (highscore > 500) {
 				primaryStage.setScene(levelScene);
 			} else {
 				level = new GameLevel(model, false);
+				createPlayer(model);
 				primaryStage.setScene(gameScene);
 			}
 		});
@@ -121,14 +131,14 @@ public class MainClass extends Application{
 		level1Button.setOnAction(event -> {
 			GameLevel level1 = new GameLevel(model, false);
 			level = level1;
-//			gameIsRunning = true;
+			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
 		
 		level2Button.setOnAction(event -> {
 			GameLevel level2 = new GameLevel(model, true);
 			level = level2;
-//			gameIsRunning = true;
+			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
 		
@@ -138,6 +148,7 @@ public class MainClass extends Application{
 				primaryStage.setScene(levelScene);
 			} else {
 				level = new GameLevel(model, false);
+				createPlayer(model);
 				primaryStage.setScene(gameScene);
 			}
 		});
@@ -153,7 +164,7 @@ public class MainClass extends Application{
 				model.keyPressed(event);
 			}
 		});
-		
+
 		
 		
 //	// High Score handler (new class in logic?)
@@ -162,7 +173,7 @@ public class MainClass extends Application{
 //			System.out.println("Success!");
 //
 //				if (Integer.parseInt(score) >= Integer.parseInt(highScore1)) {
-//					// Nytt HS
+//					// New HS
 //					out = new ObjectOutputStream(new FileOutputStream(highScore1));
 //					out.writeObject(score);
 //					highScore3 = highScore2;
@@ -195,22 +206,14 @@ public class MainClass extends Application{
 			public void handle(long arg0) {
 				model.update();
 				frame.repaint();
-				
+
 				try {
-					GameObject player = model.getPlayer();
+					player.collideHandler(model.getObjects());
+					sidePanel.update(player.getScore(), player.getLifes(), player.getHasBoots());
+					
 					if (player.isDead(model)) {
 						primaryStage.setScene(gameOverScene);
 						reset(level, model);
-					}
-					
-					player.collideHandler(model.getObjects());
-					
-					
-					if (level.getBoots().collides(player, level.getBoots())) {
-						//
-					}
-					if (level.getLife().collides(player, level.getLife())) {
-						//
 					}
 				} catch (Exception e) {}
 			}
@@ -218,8 +221,12 @@ public class MainClass extends Application{
 		primaryStage.show();
 	}
 	
-	protected void reset(GameLevel level, Model model) {
-//		gameIsRunning = false;
+	public void createPlayer(Model model) {
+		player = new Player("elephant.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8);
+		model.addObjects(player);
+	}
+	
+	public void reset(GameLevel level, Model model) {
 		// Update high score here
 	}
 }

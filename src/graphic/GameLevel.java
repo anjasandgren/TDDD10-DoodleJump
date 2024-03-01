@@ -1,5 +1,14 @@
+package graphic;
 
 import java.util.Random;
+import game_objects.GameObject;
+import game_objects.Life;
+import game_objects.Monster;
+import game_objects.Platform;
+import game_objects.Player;
+import logic.Boots;
+import logic.Model;
+import logic.MyCanvas;
 
 public class GameLevel {
 	
@@ -7,17 +16,17 @@ public class GameLevel {
 	private Boots boots;
 	private Life life;
 
-	public GameLevel(Model model, boolean difficultLevel) { //diffLevel=true, svår bana, level 2
+	public GameLevel(Model model, boolean difficultLevel) { //diffLevel=true, means hard level, level 2
 		int nrOfPlatforms;
 		int nrOfLavaPlatforms;
 		int monsterSpeed;
 		
 		if (!difficultLevel) {
-			nrOfPlatforms = 15;
+			nrOfPlatforms = 20;
 			nrOfLavaPlatforms = 1;
 			monsterSpeed = 3;
 		} else {
-			nrOfPlatforms = 10;
+			nrOfPlatforms = 13;
 			nrOfLavaPlatforms = 2;
 			monsterSpeed = 5;
 		}
@@ -35,7 +44,7 @@ public class GameLevel {
 		}
 		
 	// Create lava platforms 
-		y = 0;
+		y = (-1) * MyCanvas.height;
 		for (int i = 0; i<nrOfLavaPlatforms; ++i) {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
@@ -47,16 +56,17 @@ public class GameLevel {
 		}
 		
 	// Create monsters
-		GameObject monster = new Monster("monster.png", 70, 80, 0, -500, monsterSpeed);
+		GameObject monster = new Monster("monster.png", 70, 80, 0, -600, monsterSpeed);
 		model.addObjects(monster);
 		
-	// Create player
-		player = new Player("elephant.png", 60, 80, 0, 700, -8);
-		model.addObjects(player);
+	// Create power ups
+		Random randX1 = new Random();
+		Random randX2 = new Random();
+		double x1 = randX1.nextInt(700);
+		double x2 = randX2.nextInt(700);
 		
-	// Create powerups
-		boots = new Boots("boots.png", 30, 50, 40, -3000);
-		life = new Life("lifes.png", 60, 50, 150, -100);
+		boots = new Boots("boots.png", 30, 50, x1, -500);
+		life = new Life("life.png", 60, 40, x2, -300);
 		model.addObjects(boots);
 		model.addObjects(life);
 	}

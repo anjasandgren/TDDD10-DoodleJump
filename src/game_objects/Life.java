@@ -1,15 +1,16 @@
+package game_objects;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import logic.Model;
 
 public class Life extends GameObject {
 
 	public Life(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, false, 4);
+		super(imageString, width, height, x, y, 3);
 	}
 
 	@Override
-	public void update() {
+	public void update(Model model) {
 		increasePosY(getSpeed());
 	}
 
@@ -26,8 +27,7 @@ public class Life extends GameObject {
 	}
 	
 	@Override
-	public void collidesWithPlayer(GameObject player) {
-		System.out.println("+ 1 liv");
+	public void collidesWithPlayer(Player player) {
 		setIsShown(false);
 		player.addLife();
 		

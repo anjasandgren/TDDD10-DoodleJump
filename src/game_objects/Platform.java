@@ -1,14 +1,17 @@
+package game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
+import logic.MyCanvas;
 
 import java.util.ArrayList;
 import java.util.Random;
+import logic.Model;
 
 public class Platform extends GameObject {
 	private boolean isLavaPlatform;
 	
 	public Platform(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, false, 0);
+		super(imageString, width, height, x, y, 0);
 	}
 
 	public Platform(String imageString, int width, int height, double x, double y, boolean isLavaPlatform) {
@@ -17,7 +20,7 @@ public class Platform extends GameObject {
 	}
 	
 	@Override
-	public void update() {
+	public void update(Model model) {
 		increasePosY(2);
 	}
 	
@@ -37,11 +40,10 @@ public class Platform extends GameObject {
 	}
 	
 	@Override 
-	public void collidesWithPlayer(GameObject player) {
+	public void collidesWithPlayer(Player player) {
 		if (diesFromCollision(player)) {
 			setIsShown(false);
 			player.removeLife();
-			System.out.println("-1 liv");
 		}
 	}
 	
