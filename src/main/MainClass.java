@@ -1,12 +1,14 @@
 package main;
 
+import graphic.GameLevel;
+import graphic.SidePanel;
+import game_objects.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import graphic.GameLevel;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -19,8 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import logic.Model;
 import logic.MyCanvas;
-import graphic.SidePanel;
-import game_objects.*;
 
 public class MainClass extends Application{
 
@@ -130,15 +130,13 @@ public class MainClass extends Application{
 		});
 		
 		level1Button.setOnAction(event -> {
-			GameLevel level1 = new GameLevel(model, false);
-			level = level1;
+			level = new GameLevel(model, false); // Easy level
 			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
 		
 		level2Button.setOnAction(event -> {
-			GameLevel level2 = new GameLevel(model, true);
-			level = level2;
+			level = new GameLevel(model, true); // Hard level
 			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
@@ -148,7 +146,7 @@ public class MainClass extends Application{
 			if (highscore > 500) {
 				primaryStage.setScene(levelScene);
 			} else {
-				level = new GameLevel(model, false);
+				level = new GameLevel(model, false); // Easy level
 				createPlayer(model);
 				primaryStage.setScene(gameScene);
 			}
@@ -166,6 +164,9 @@ public class MainClass extends Application{
 			}
 		});
 
+		gameScene.setOnKeyReleased(event -> {
+			model.keyReleased(event);
+		});
 		
 		
 //	// High Score handler (new class in logic?)
@@ -214,7 +215,7 @@ public class MainClass extends Application{
 					
 					if (player.isDead(model)) {
 						primaryStage.setScene(gameOverScene);
-						reset(level, model);
+						reset();
 					}
 				} catch (Exception e) {}
 			}
@@ -223,11 +224,11 @@ public class MainClass extends Application{
 	}
 	
 	public void createPlayer(Model model) {
-		player = new Player("elephant.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8);
+		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8);
 		model.addObjects(player);
 	}
 	
-	public void reset(GameLevel level, Model model) {
-		// Update high score here
+	public void reset() {
+		// Update high score here!!
 	}
 }

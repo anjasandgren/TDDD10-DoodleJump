@@ -1,7 +1,6 @@
 package game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
-import logic.Model;
 
 public class Life extends GameObject {
 
@@ -10,19 +9,19 @@ public class Life extends GameObject {
 	}
 
 	@Override
-	public void update(Model model) {
-		increasePosY(getSpeed());
+	public void update() {
+		increasePosY(getSpeedY());
 	}
 
 	@Override
 	public void drawYourself(GraphicsContext gc) {
-		if (getPosY() > 3000) {
+		if (getPosY() > 5000) {
 			setPosY(-100);
 			setIsShown(true);
 		}
 		
 		if (isShown()) {
-			gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
+			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
 		}
 	}
 	

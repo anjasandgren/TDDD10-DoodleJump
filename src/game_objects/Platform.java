@@ -1,27 +1,26 @@
 package game_objects;
 
+import java.util.Random;
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
-import java.util.ArrayList;
-import java.util.Random;
-import logic.Model;
-
 public class Platform extends GameObject {
+	
 	private boolean isLavaPlatform;
 	
 	public Platform(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, 0);
+		super(imageString, width, height, x, y, 2);
 	}
 
 	public Platform(String imageString, int width, int height, double x, double y, boolean isLavaPlatform) {
 		this(imageString, width, height, x, y);
+		System.out.println("lava");
 		this.isLavaPlatform = isLavaPlatform;
 	}
 	
 	@Override
-	public void update(Model model) {
-		increasePosY(2);
+	public void update() {
+		increasePosY(getSpeedY());
 	}
 	
 	@Override
@@ -35,7 +34,7 @@ public class Platform extends GameObject {
 		}
 		
 		if (isShown()) {
-			gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
+			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
 		}
 	}
 	
@@ -44,6 +43,8 @@ public class Platform extends GameObject {
 		if (diesFromCollision(player)) {
 			setIsShown(false);
 			player.removeLife();
+		} else if (!isLavaPlatform) {
+			jumpHandler(player);
 		}
 	}
 	
@@ -51,20 +52,16 @@ public class Platform extends GameObject {
 	public boolean diesFromCollision(GameObject player) {
 		if (!isLavaPlatform) {
 			return false;
-		} else if (collides(player, this) && player.getSpeed() > 0 && getPosY() >= player.getHeight() + player.getPosY() - 5) {
+		} else if (player.getSpeedY() > 0 && getPosY() >= player.getHeight() + player.getPosY() - 5) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	@Override
-	public boolean isPlatform() {
-		return true;
-	}
-	
-	@Override
-	public boolean isLavaPlatform() {
-		return isLavaPlatform;
+	public void jumpHandler(Player player) {
+		if (player.getSpeedY() > 0.0 && player.getPosY() + player.getHeight() - 25 <= getPosY()) {
+			player.setSpeedY(-10);
+		}
 	}
 }

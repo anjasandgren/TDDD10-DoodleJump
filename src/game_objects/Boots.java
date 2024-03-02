@@ -1,7 +1,5 @@
-package logic;
+package game_objects;
 
-import game_objects.GameObject;
-import game_objects.Player;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Boots extends GameObject {
@@ -11,8 +9,8 @@ public class Boots extends GameObject {
 	}
 
 	@Override
-	public void update(Model model) {
-		increasePosY(getSpeed());
+	public void update() {
+		increasePosY(getSpeedY());
 	}
 
 	@Override
@@ -23,7 +21,7 @@ public class Boots extends GameObject {
 		}
 		
 		if (isShown()) {
-			gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
+			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
 		}
 	}
 	

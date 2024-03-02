@@ -1,7 +1,6 @@
 package game_objects;
 
 import java.util.ArrayList;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import logic.Model;
 import logic.MyCanvas;
@@ -13,33 +12,35 @@ public class Player extends GameObject {
 	private int timeCounter = 0; //60 is one second
 	private int bootCounter = 0;
 	private boolean hasBoots = false;
+	private double speedX = 0;
 	
-	public Player(String imageString, int width, int height, double x, double y, double speed) {
-		super(imageString, width, height, x, y, speed);
+	public Player(String image, String imageWithBoots, int width, int height, double x, double y, double speed) {
+		super(image, imageWithBoots, width, height, x, y, speed);
 	}
 
 	@Override
-	public void update(Model model) {
+	public void update() {
 //		if (getPosY() <= 0) {
 //			setSpeed(0);
 //			setPosY(10);
 //		}
 		
-		if (bootCounter > 1000) {
+		if (bootCounter > 480) { //Has boots for 8 seconds
 			setHasBoots(false);
 			bootCounter = 0;
 		}
 		
-		double speed;
+		double speedY;
 		if (hasBoots) {
-			speed = getSpeed() - 5;
+			speedY = getSpeedY() - 4; // Jumps higher with the boots
 			bootCounter += 1;
 		} else {
-			speed = getSpeed();
+			speedY = getSpeedY();
 		}
-		jumps(model);
-		increaseSpeed(0.4);
-		increasePosY(speed);
+		
+		increasePosX(speedX);
+		increaseSpeedY(0.5);
+		increasePosY(speedY);
 		if (timeCounter >= 30) {
 			score += 5;
 			timeCounter = 0;
@@ -56,34 +57,24 @@ public class Player extends GameObject {
 			setPosX(MyCanvas.width);
 		}
 				
-		if (getPosY() > MyCanvas.height-getHeight()) {
-			setSpeed(-10);
-		}
+//		if (getPosY() > MyCanvas.height-getHeight()) {
+//			setSpeedY(-10);
+//		}
 
-		gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
+		if (hasBoots) {
+			gc.drawImage(getSecondGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
+		} else {
+			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
+		}
 	}
 	
 	public boolean isDead(Model model) {
 		if (lifes <= 0) {
 			return true;
-		} else if (getPosY() >= MyCanvas.height-getHeight()) {
-			return false; //ÄNDRA TILL TRUE SEN!
+		} else if (getPosY() >= MyCanvas.height) {
+			return true;
 		} else {
 			return false;
-		}
-	}
-	
-	public void jumps(Model model) {
-		ArrayList<GameObject> objects = model.getObjects();
-		Rectangle2D playerRec = this.getRectangle();
-
-		for (GameObject gameObj : objects) {
-			if (gameObj.isPlatform() && !gameObj.isLavaPlatform()) {
-				Rectangle2D platformRec = gameObj.getRectangle();
-				if (playerRec.intersects(platformRec) && getSpeed() > 0.0) {
-					setSpeed(-10);
-				}
-			}
 		}
 	}
 	
@@ -123,5 +114,10 @@ public class Player extends GameObject {
 	@Override
 	public boolean getIsPlayer() {
 		return true;
+	}
+	
+	@Override
+	public void setSpeedX(double speed) {
+		speedX = speed;
 	}
 }

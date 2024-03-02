@@ -2,7 +2,6 @@ package game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
-import logic.Model;
 
 public class Monster extends GameObject {
 	private boolean isGoingRight;
@@ -13,9 +12,9 @@ public class Monster extends GameObject {
 	}
 
 	@Override
-	public void update(Model model) {
+	public void update() {
 		if (isGoingRight) {
-			increasePosX(getSpeed());
+			increasePosX(getSpeedY());
 			if (getPosX() + 70 > MyCanvas.width) {
 				isGoingRight = false;
 			} 
@@ -35,7 +34,7 @@ public class Monster extends GameObject {
 			setIsShown(true);
 		}
 		if (isShown()) {
-			gc.drawImage(getGameObj(), getPosX(), getPosY(), getWidth(), getHeight());
+			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
 		}
 	}
 

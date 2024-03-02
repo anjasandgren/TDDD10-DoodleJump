@@ -1,12 +1,13 @@
 package graphic;
 
-import java.util.Random;
+import game_objects.Boots;
 import game_objects.GameObject;
 import game_objects.Life;
 import game_objects.Monster;
 import game_objects.Platform;
 import game_objects.Player;
-import logic.Boots;
+import java.util.Random;
+
 import logic.Model;
 import logic.MyCanvas;
 
@@ -24,11 +25,11 @@ public class GameLevel {
 		if (!difficultLevel) {
 			nrOfPlatforms = 20;
 			nrOfLavaPlatforms = 1;
-			monsterSpeed = 3;
+			monsterSpeed = 2;
 		} else {
 			nrOfPlatforms = 13;
 			nrOfLavaPlatforms = 2;
-			monsterSpeed = 5;
+			monsterSpeed = 4;
 		}
 		
 	// Create platforms

@@ -1,19 +1,30 @@
 package logic;
 
-import java.util.ArrayList;
-
 import game_objects.GameObject;
+
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 
 public class Model {
+	
+	private Image backgroundImg;
 	ArrayList<GameObject> objects = new ArrayList<>();
+	
+	public Model() {
+		try {
+			backgroundImg = new Image(new FileInputStream("background.png"));
+		} catch (Exception e) {
+			System.out.println("Couldn't load background image");
+		}
+	}
 	
 	public void update() {
 		for (GameObject gameObject : objects) {
-			gameObject.update(this);
+			gameObject.update();
 			try {
 				if (getPlayer().collides(getPlayer(), gameObject)) {
 					gameObject.diesFromCollision(getPlayer());
@@ -24,12 +35,18 @@ public class Model {
 	
 	public void keyPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.RIGHT) {
-			getPlayer().increasePosX(20);
+			getPlayer().setSpeedX(6);
 		} else if (event.getCode() == KeyCode.LEFT) {
-			getPlayer().increasePosX(-20);
+			getPlayer().setSpeedX(-6);
 		}
 	}
 
+	public void keyReleased(KeyEvent event) {
+		if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
+			getPlayer().setSpeedX(0);
+		}
+	}
+	
 	public GameObject getPlayer() {
 		for (GameObject gameObj : objects) {
 			if (gameObj.getIsPlayer()) {
@@ -40,10 +57,12 @@ public class Model {
 	}
 
 	public void repaint(GraphicsContext gc) {
-		gc.clearRect(0, 0, MyCanvas.width, MyCanvas.height);
-		gc.setFill(Color.LIGHTBLUE);
-		gc.fillRect(0, 0, MyCanvas.width, MyCanvas.height);
 		
+//		gc.clearRect(0, 0, MyCanvas.width, MyCanvas.height);
+//		gc.setFill(Color.LIGHTBLUE);
+//		gc.fillRect(0, 0, MyCanvas.width, MyCanvas.height);
+		gc.drawImage(backgroundImg, 0, 0,  MyCanvas.width,  MyCanvas.height);
+
 		for (GameObject gameObject : objects) {
 			gameObject.drawYourself(gc);
 		}
