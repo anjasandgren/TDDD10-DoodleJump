@@ -16,8 +16,7 @@ public class Boots extends GameObject {
 	@Override
 	public void drawYourself(GraphicsContext gc) {
 		if (getPosY() > 5000) {
-			setPosY(-100);
-			setIsShown(true);
+			reset(-100);
 		}
 		
 		if (isShown()) {

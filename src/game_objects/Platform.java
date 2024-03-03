@@ -10,11 +10,11 @@ public class Platform extends GameObject {
 	
 	public Platform(String imageString, int width, int height, double x, double y) {
 		super(imageString, width, height, x, y, 2);
+		this.isLavaPlatform = false;
 	}
 
 	public Platform(String imageString, int width, int height, double x, double y, boolean isLavaPlatform) {
 		this(imageString, width, height, x, y);
-		System.out.println("lava");
 		this.isLavaPlatform = isLavaPlatform;
 	}
 	
@@ -31,6 +31,7 @@ public class Platform extends GameObject {
 			setPosX(x);
 			setPosY(-10);
 			setIsShown(true);
+			setIsTaken(false);
 		}
 		
 		if (isShown()) {

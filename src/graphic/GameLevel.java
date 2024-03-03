@@ -5,15 +5,12 @@ import game_objects.GameObject;
 import game_objects.Life;
 import game_objects.Monster;
 import game_objects.Platform;
-import game_objects.Player;
 import java.util.Random;
-
 import logic.Model;
 import logic.MyCanvas;
 
 public class GameLevel {
 	
-	private Player player;
 	private Boots boots;
 	private Life life;
 
@@ -24,11 +21,11 @@ public class GameLevel {
 		
 		if (!difficultLevel) {
 			nrOfPlatforms = 20;
-			nrOfLavaPlatforms = 1;
+			nrOfLavaPlatforms = 2;
 			monsterSpeed = 2;
 		} else {
 			nrOfPlatforms = 13;
-			nrOfLavaPlatforms = 2;
+			nrOfLavaPlatforms = 5;
 			monsterSpeed = 4;
 		}
 		
@@ -38,6 +35,7 @@ public class GameLevel {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
 
+			//GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
 			GameObject platform = new Platform("platform.png", 60, 40, x, y);
 			y += MyCanvas.height / nrOfPlatforms;
 			
@@ -70,10 +68,6 @@ public class GameLevel {
 		life = new Life("life.png", 60, 40, x2, -300);
 		model.addObjects(boots);
 		model.addObjects(life);
-	}
-	
-	public Player getPlayer() {
-		return player;
 	}
 	
 	public Boots getBoots() {
