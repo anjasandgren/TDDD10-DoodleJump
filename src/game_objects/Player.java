@@ -99,6 +99,7 @@ public class Player extends GameObject {
 		return lifes;
 	}
 	
+	@Override
 	public int getScore() {
 		return score;
 	}

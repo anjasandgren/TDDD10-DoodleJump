@@ -154,4 +154,8 @@ public abstract class GameObject {
 	public boolean isShown() {
 		return isShown;
 	}
+
+	public int getScore() {
+		return 0;
+	}
 }
