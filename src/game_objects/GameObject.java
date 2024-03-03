@@ -181,6 +181,10 @@ public abstract class GameObject {
 		return isShown;
 	}
 	
+	public int getScore() {
+		return 0;
+	}
+	
 	public void setIsTaken(boolean isTaken) {
 		this.isTaken = isTaken;
 	}
