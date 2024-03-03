@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
 public class Monster extends GameObject {
+	
 	private boolean isGoingRight;
 	
 	public Monster(String imageString, int width, int height, double x, double y, double speed) {
@@ -13,7 +14,13 @@ public class Monster extends GameObject {
 
 	@Override
 	public void update() {
-		if (isGoingRight) {
+		
+		if (isTaken() && isShown()) {
+			setWidth(getWidth() + 40);
+			setHeight(getHeight() + 40);
+			increasePosX(-20);
+			increasePosY(-20);
+		} else if (isGoingRight) {
 			increasePosX(getSpeedY());
 			if (getPosX() + 70 > MyCanvas.width) {
 				isGoingRight = false;
@@ -25,13 +32,16 @@ public class Monster extends GameObject {
 			}
 		}
 		increasePosY(2);
+		
+		if (getWidth() > 200) {
+			setIsShown(false);
+		}
 	}
 
 	@Override
 	public void drawYourself(GraphicsContext gc) {
 		if (getPosY() > 900) {
-			setPosY(-200);
-			setIsShown(true);
+			reset(-200);
 		}
 		if (isShown()) {
 			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());
@@ -40,7 +50,7 @@ public class Monster extends GameObject {
 
 	@Override
 	public void collidesWithPlayer(Player player) {
-		setIsShown(false);
+		setIsTaken(true);
 		player.removeLife();
 	}
 }

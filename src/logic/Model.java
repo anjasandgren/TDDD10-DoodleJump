@@ -1,7 +1,6 @@
 package logic;
 
 import game_objects.GameObject;
-
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;

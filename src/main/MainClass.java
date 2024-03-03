@@ -155,6 +155,18 @@ public class MainClass extends Application{
 			model.keyReleased(event);
 		});
 		
+		startMenu.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				int highscore = 300; //TODO, läs in från fil istället
+				if (highscore > 500) {
+					primaryStage.setScene(levelScene);
+				} else {
+					level = new GameLevel(model, false);
+					createPlayer(model);
+					primaryStage.setScene(gameScene);
+				}
+			}
+		});
 		
 		new AnimationTimer() {
 			@Override
@@ -193,8 +205,10 @@ public class MainClass extends Application{
 	}
 	
 	public void createPlayer(Model model) {
-		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8);
+		LooseLife looseLife = new LooseLife("loose_life.png", 30, 20, 0, 0);
+		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8, looseLife);
 		model.addObjects(player);
+		model.addObjects(looseLife);
 	}
 	
 	public void reset(HighScore highscore) {

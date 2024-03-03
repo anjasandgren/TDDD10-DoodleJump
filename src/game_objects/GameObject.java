@@ -21,10 +21,14 @@ public abstract class GameObject {
 	public class Size {
 		double width;
 		double height;
+		double originalWidth;
+		double originalHeight;
 
-		public Size(double width, double height) {
+		public Size(double width, double height, double originalWidth, double originalHeight) {
 			this.width = width;
 			this.height = height;
+			this.originalWidth = originalWidth;
+			this.originalHeight = originalHeight;
 		}
 	}
 	
@@ -33,9 +37,10 @@ public abstract class GameObject {
 	private Point position;
 	private Size size;
 	private double speedY;
-	private boolean isShown = true;
+	private boolean isTaken = false;
+	private boolean isShown;
 	
-	public GameObject(String imageString, String secondImageString, int width, int height, double x, double y, double speedY) {
+	public GameObject(String imageString, String secondImageString, int width, int height, double x, double y, double speedY, boolean isShown) {
 		try {
 			gameObjImg = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
@@ -49,12 +54,17 @@ public abstract class GameObject {
 			}
 		}
 		position = new Point(x, y);
-		size = new Size(width, height);
+		size = new Size(width, height, width, height);
 		this.speedY = speedY;
+		this.isShown = isShown;
 	}
 	
 	public GameObject(String imageString, int width, int height, double x, double y, double speed) {
-		this(imageString, "", width, height, x, y, speed);
+		this(imageString, "", width, height, x, y, speed, true);
+	}
+	
+	public GameObject(String imageString, int width, int height, double x, double y, boolean isShown) {
+		this(imageString, "", width, height, x, y, 0, isShown);
 	}
 	
 	public abstract void update();
@@ -65,7 +75,7 @@ public abstract class GameObject {
 		Rectangle2D obj1Rec = obj1.getRectangle();
 		Rectangle2D obj2Rec = obj2.getRectangle();
 		
-		if (obj1 == obj2 || obj1.getPosY() <= 0 || obj2.getPosY() <= 0 || !obj1.isShown() || !obj2.isShown()) {
+		if (obj1 == obj2 || obj1.getPosY() <= 0 || obj2.getPosY() <= 0 || obj1.isTaken() || obj2.isTaken()) {
 			return false;
 		} else if (obj1Rec.intersects(obj2Rec)) {
 			return true;
@@ -123,12 +133,28 @@ public abstract class GameObject {
 		speedY += acceleration;
 	}
 	
+	public void setWidth(double width) {
+		this.size.width = width;
+	}
+	
+	public void setHeight(double height) {
+		this.size.height = height;
+	}
+	
 	public double getWidth() {
 		return size.width;
 	}
 	
 	public double getHeight() {
 		return size.height;
+	}
+	
+	public double getOriginalWidth() {
+		return size.originalWidth;
+	}
+	
+	public double getOriginalHeight() {
+		return size.originalHeight;
 	}
 	
 	public Image getGameObjImg() {
@@ -154,8 +180,20 @@ public abstract class GameObject {
 	public boolean isShown() {
 		return isShown;
 	}
-
-	public int getScore() {
-		return 0;
+	
+	public void setIsTaken(boolean isTaken) {
+		this.isTaken = isTaken;
+	}
+	
+	public boolean isTaken() {
+		return isTaken;
+	}
+	
+	public void reset(double PosY) {
+		setPosY(-200);
+		isShown = true;
+		isTaken = false;
+		size.width = size.originalWidth;
+		size.height = size.originalHeight;
 	}
 }

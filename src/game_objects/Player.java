@@ -7,21 +7,23 @@ import logic.MyCanvas;
 
 public class Player extends GameObject {
 	
-	private int lifes = 1;
+	private int lifes = 3;
 	private int score = 0;
 	private int timeCounter = 0; //60 is one second
 	private int bootCounter = 0;
 	private boolean hasBoots = false;
 	private double speedX = 0;
+	private LooseLife looseLife;
 	
-	public Player(String image, String imageWithBoots, int width, int height, double x, double y, double speed) {
-		super(image, imageWithBoots, width, height, x, y, speed);
+	public Player(String image, String imageWithBoots, int width, int height, double x, double y, double speed, LooseLife looseLife) {
+		super(image, imageWithBoots, width, height, x, y, speed, true);
+		this.looseLife = looseLife;
 	}
 
 	@Override
 	public void update() {
 //		if (getPosY() <= 0) {
-//			setSpeed(0);
+//			setSpeedY(0);
 //			setPosY(10);
 //		}
 		
@@ -92,6 +94,7 @@ public class Player extends GameObject {
 	}
 	
 	public void removeLife() {
+		looseLife.setIsTaken(true);
 		lifes -= 1;
 	}
 	
