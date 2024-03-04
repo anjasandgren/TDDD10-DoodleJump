@@ -22,11 +22,6 @@ public class Player extends GameObject {
 
 	@Override
 	public void update() {
-//		if (getPosY() <= 0) {
-//			setSpeedY(0);
-//			setPosY(10);
-//		}
-		
 		if (bootCounter > 480) { //Has boots for 8 seconds
 			setHasBoots(false);
 			bootCounter = 0;
@@ -43,7 +38,8 @@ public class Player extends GameObject {
 		increasePosX(speedX);
 		increaseSpeedY(0.5);
 		increasePosY(speedY);
-		if (timeCounter >= 30) {
+		
+		if (timeCounter >= 30 && isShown()) {
 			score += 5;
 			timeCounter = 0;
 		}
@@ -58,10 +54,6 @@ public class Player extends GameObject {
 		} else if (getPosX() + getWidth() <= 0) {
 			setPosX(MyCanvas.width);
 		}
-				
-//		if (getPosY() > MyCanvas.height-getHeight()) {
-//			setSpeedY(-10);
-//		}
 
 		if (hasBoots) {
 			gc.drawImage(getSecondGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());

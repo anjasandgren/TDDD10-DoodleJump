@@ -194,7 +194,7 @@ public abstract class GameObject {
 	}
 	
 	public void reset(double PosY) {
-		setPosY(-200);
+		setPosY(PosY);
 		isShown = true;
 		isTaken = false;
 		size.width = size.originalWidth;

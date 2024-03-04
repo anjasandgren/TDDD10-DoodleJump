@@ -35,8 +35,7 @@ public class GameLevel {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
 
-			//GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
-			GameObject platform = new Platform("platform.png", 60, 40, x, y);
+			GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
 			y += MyCanvas.height / nrOfPlatforms;
 			
 			model.addObjects(platform);

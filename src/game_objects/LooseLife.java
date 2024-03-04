@@ -12,8 +12,8 @@ public class LooseLife extends GameObject{
 	@Override
 	public void update() {
 		if (isTaken()) {
-			setWidth(getWidth() + 2);
-			setHeight(getHeight() + 1.5);
+			setWidth(getWidth() + 3);
+			setHeight(getHeight() + 2.3);
 			increasePosX(-1);
 			increasePosY(-0.75);
 			setIsShown(true);

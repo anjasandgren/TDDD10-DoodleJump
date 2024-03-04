@@ -40,8 +40,8 @@ public class Monster extends GameObject {
 
 	@Override
 	public void drawYourself(GraphicsContext gc) {
-		if (getPosY() > 900) {
-			reset(-200);
+		if (getPosY() > MyCanvas.height) {
+			reset(-300);
 		}
 		if (isShown()) {
 			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());

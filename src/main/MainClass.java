@@ -42,11 +42,9 @@ public class MainClass extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-	
-	//Model
 		Model model = new Model();		
 		HighScore highscore = new HighScore();	
-
+		
 		
 	// Start Menu Scene
 		VBox startMenu = new VBox();
@@ -78,13 +76,15 @@ public class MainClass extends Application{
 		layout.getChildren().add(sidePanel);
 		Scene gameScene = new Scene(layout, MyCanvas.width + 70, MyCanvas.height);
 		
-		// Buttons to gameOverScene
+		
+	// Buttons to gameOverScene
 		Button playAgainButton = new Button("PLAY AGAIN");
 		Button startMenuButton = new Button("START MENU");
-				
+		
+		
 	// Actions for buttons
 		startButton.setOnAction(event -> {
-			if ((Integer.parseInt(highscore.getScores().get(1))) > 500) {
+			if (highscore.getScores().get(0) > 500) {
 				primaryStage.setScene(levelScene);
 			} else {
 				level = new GameLevel(model, false);
@@ -127,7 +127,7 @@ public class MainClass extends Application{
 		
 		startMenu.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ENTER) {
-				if (Integer.parseInt(highscore.getScores().get(1)) > 500) {
+				if (highscore.getScores().get(0) > 500) {
 					primaryStage.setScene(levelScene);
 				} else {
 					level = new GameLevel(model, false);
@@ -148,19 +148,20 @@ public class MainClass extends Application{
 					sidePanel.update(player.getScore(), player.getLifes(), player.getHasBoots());
 					
 					if (player.isDead(model) && gameIsRunning) {
+						gameIsRunning = false;
 						reset(highscore);
 						primaryStage.setScene(buildGameOverScene(highscore, playAgainButton, startMenuButton));
-						gameIsRunning = false;
+						model.reset();
 					}
 				} catch (Exception e) {}
 			}
 		}.start();
 		
 		playAgainButton.setOnAction(event -> {
-			if ((Integer.parseInt(highscore.getScores().get(1))) > 500) {
+			if (highscore.getScores().get(0) > 500) {
 				primaryStage.setScene(levelScene);
+				gameIsRunning = true;
 			} else {
-				model.reset();
 				level = new GameLevel(model, false); // Easy level
 				createPlayer(model);
 				primaryStage.setScene(gameScene);
@@ -184,40 +185,36 @@ public class MainClass extends Application{
 	
 	public void reset(HighScore highscore) {
 		highscore.updateScores(player);
-	}
-	
-	public ArrayList<String> getScores(HighScore highscore) {
-			return highscore.getScores();
+		player.setIsShown(false);
 	}
 	
 	public Scene buildGameOverScene(HighScore highscore, Button playAgainButton, Button startMenuButton) {
-				VBox gameOver = new VBox();
+			VBox gameOver = new VBox();
 	
-			// new best score
-				if (player.getScore() > Integer.parseInt((getScores(highscore).get(0)))) {
-					Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
-					gameOver.getChildren().add(gameOverLabel);
-					Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
-					Label scoreLabel = new Label(player.getScore() + "\n\n\n");
-					gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
-				} else {
-					Label scoreLabel = new Label("Your Score: " + player.getScore() + "\n\n\n");
-					Label highScoreLabel = new Label ("Top 3 Scores: ");
-					Label highScore1Label = new Label(getScores(highscore).get(1));
-					Label highScore2Label = new Label(getScores(highscore).get(2));
-					Label highScore3Label = new Label(getScores(highscore).get(3) + "\n \n");
-					gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
-				}
-				
-				HBox buttonsPanel = new HBox();
-				buttonsPanel.getChildren().add(playAgainButton);
-				buttonsPanel.getChildren().add(startMenuButton);
-				buttonsPanel.setAlignment(Pos.CENTER);
+			if (player.getScore() > highscore.getScores().get(0)) {
+				Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
+				gameOver.getChildren().add(gameOverLabel);
+				Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
+				Label scoreLabel = new Label(player.getScore() + "\n\n\n");
+				gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
+			} else {
+				Label scoreLabel = new Label("Your Score: " + player.getScore() + "\n\n\n");
+				Label highScoreLabel = new Label ("Top 3 Scores: ");
+				Label highScore1Label = new Label(String.valueOf(highscore.getScores().get(0)));
+				Label highScore2Label = new Label(String.valueOf(highscore.getScores().get(1)));
+				Label highScore3Label = new Label(String.valueOf(highscore.getScores().get(2)) + "\n \n");
+				gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
+			}
+			
+			HBox buttonsPanel = new HBox();
+			buttonsPanel.getChildren().add(playAgainButton);
+			buttonsPanel.getChildren().add(startMenuButton);
+			buttonsPanel.setAlignment(Pos.CENTER);
 
-				gameOver.getChildren().add(buttonsPanel);
-				gameOver.setAlignment(Pos.CENTER);
+			gameOver.getChildren().add(buttonsPanel);
+			gameOver.setAlignment(Pos.CENTER);
 
-				Scene gameOverScene = new Scene(gameOver, MyCanvas.width, MyCanvas.height);
-				return gameOverScene;
+			Scene gameOverScene = new Scene(gameOver, MyCanvas.width, MyCanvas.height);
+			return gameOverScene;
 	}
 }

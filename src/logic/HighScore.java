@@ -1,100 +1,51 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import game_objects.GameObject;
 
 public class HighScore {
-	String highScore1 = "0";
-	String highScore2 = "0";
-	String highScore3 = "0";
-	ArrayList<String> scores = new ArrayList<String>();
+	
+	private ArrayList<Integer> scores;
+	private static final String hsFile = "highScore.txt";
 
 	public HighScore() throws ClassNotFoundException {
-		ObjectInputStream in = null;
-		firstReading();
+		scores = new ArrayList<Integer>();
+		DataInputStream in = null;
 		try {
-			in = new ObjectInputStream(new FileInputStream("highScore1.txt"));
-			highScore1 = (String) in.readObject();
-			in = new ObjectInputStream(new FileInputStream("highScore2.txt"));
-			highScore2 = (String) in.readObject();
-			in = new ObjectInputStream(new FileInputStream("highScore3.txt"));
-			highScore3 = (String) in.readObject();
-			scores.add(highScore1);
-			scores.add(highScore2);
-			scores.add(highScore3);
-		} catch (IOException e) {
-			e.printStackTrace();
-			scores.add("0");
-			scores.add("0");
-			scores.add("0");
+			in = new DataInputStream(new FileInputStream(hsFile));
+			scores.add(in.readInt());
+			scores.add(in.readInt());
+			scores.add(in.readInt());
+			in.close();
+		} catch (Exception e) {
+			scores.add(0);
+			scores.add(0);
+			scores.add(0);
 		}
 	}
 	
-	public ArrayList<String> getScores() {
+	public void updateScores(GameObject player) {
+		scores.add(player.getScore());
+		Collections.sort(scores);
+		Collections.reverse(scores);
+
+		DataOutputStream out = null;
+		try {
+			out = new DataOutputStream(new FileOutputStream(hsFile));
+			for (int i = 0; i < 3; i++) {
+				out.writeInt(scores.get(i));
+			}
+			out.close();
+		} catch (IOException e) {}
+	}
+	
+	public ArrayList<Integer> getScores() {
 		return scores;
 	}
-	
-	public void firstReading() {
-		ObjectOutputStream out = null;
-	try {
-		out = new ObjectOutputStream(new FileOutputStream("highScore1.txt"));
-		out.writeObject(highScore1);
-		out = new ObjectOutputStream(new FileOutputStream("highScore2.txt"));
-		out.writeObject(highScore2);
-		out = new ObjectOutputStream(new FileOutputStream("highScore3.txt"));
-		out.writeObject(highScore3);
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-} 
-
-	public void updateScores(GameObject player) {
-		if (player.getScore() > Integer.parseInt(highScore3)) {
-			if (player.getScore() > Integer.parseInt(highScore1)) {
-				loadScore(player, highScore1);
-				loadScore(highScore1, highScore2);
-				loadScore(highScore2, highScore3);
-		} else if (player.getScore() > Integer.parseInt(highScore2)) {
-			loadScore(player, highScore2);	
-			loadScore(highScore2, highScore3);
-		} else {
-			loadScore(player, highScore3);
-		}
-		scores.clear();
-		scores.add(highScore1);
-		scores.add(highScore2);
-		scores.add(highScore3);
-	}
 }
-	
-	public void loadScore(GameObject player, String hs ) {
-		ObjectOutputStream out = null;
-		try {
-			out = new ObjectOutputStream(new FileOutputStream(hs));
-			out.writeObject(String.valueOf(player.getScore()));
-			out.close();
-			hs = String.valueOf(player.getScore());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	// Ladda highScores
-	public void loadScore(String newhs, String oldhs) {
-		ObjectOutputStream out = null;
-		try {
-			out = new ObjectOutputStream(new FileOutputStream(oldhs));
-			out.writeObject(newhs);
-			out.close();
-			oldhs = newhs;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-}
-

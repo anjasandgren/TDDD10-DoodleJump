@@ -43,6 +43,7 @@ public class Platform extends GameObject {
 	public void collidesWithPlayer(Player player) {
 		if (diesFromCollision(player)) {
 			setIsShown(false);
+			setIsTaken(true);
 			player.removeLife();
 		} else if (!isLavaPlatform) {
 			jumpHandler(player);
@@ -53,7 +54,7 @@ public class Platform extends GameObject {
 	public boolean diesFromCollision(GameObject player) {
 		if (!isLavaPlatform) {
 			return false;
-		} else if (player.getSpeedY() > 0 && getPosY() >= player.getHeight() + player.getPosY() - 5) {
+		} else if (player.getSpeedY() > 0 && getPosY() >= player.getPosY() + player.getHeight() - 10) {
 			return true;
 		} else {
 			return false;
