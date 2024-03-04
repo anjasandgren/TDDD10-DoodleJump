@@ -68,8 +68,26 @@ public class MainClass extends Application{
 		Button playAgainButton = new Button("PLAY AGAIN");
 		Button startMenuButton = new Button("START MENU");
 		
+	// Create hsScene
+		VBox hsMenu = new VBox();
+		Label hsLabel = new Label("Top 3 Scores: ");
+		Label hs1Label = new Label(String.valueOf(highscore.getScores().get(0)));
+		Label hs2Label = new Label(String.valueOf(highscore.getScores().get(1)));
+		Label hs3Label = new Label(String.valueOf(highscore.getScores().get(2)));
+		hsMenu.getChildren().addAll(hsLabel, hs1Label, hs2Label, hs3Label);
+		hsMenu.setAlignment(Pos.CENTER);
+		Scene hsScene = new Scene(hsMenu, MyCanvas.width, MyCanvas.height);
 		
-	// Actions for pressed keys
+		
+		// Actions for pressed keys
+		hsScene.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ESCAPE) {
+				primaryStage.setScene(startMenuScene);
+			} else {
+				model.keyPressed(event);
+			}
+		});		
+		
 		gameScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ESCAPE) {
 				primaryStage.setScene(startMenuScene);
@@ -81,8 +99,7 @@ public class MainClass extends Application{
 		gameScene.setOnKeyReleased(event -> {
 			model.keyReleased(event);
 		});
-		
-		
+			
 	// Run game
 		new AnimationTimer() {
 			@Override
@@ -118,7 +135,7 @@ public class MainClass extends Application{
 		});
 		
 		hsButton.setOnAction(event -> {
-			System.out.println("hs pressed");
+			primaryStage.setScene(hsScene);
 		});
 		
 		quitButton.setOnAction(event -> {
@@ -156,7 +173,6 @@ public class MainClass extends Application{
 		primaryStage.show();
 	}
 	
-	
 	public void createPlayer(Model model) {
 		LooseLife looseLife = new LooseLife("loose_life.png", 30, 20, 0, 0);
 		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, 0, -8, looseLife);
@@ -164,12 +180,10 @@ public class MainClass extends Application{
 		model.addObjects(looseLife);
 	}
 	
-	
 	public void reset(HighScore highscore) {
 		highscore.updateScores(player);
 		player.setIsShown(false);
 	}
-	
 	
 	public Scene buildGameOverScene(HighScore highscore, Button playAgainButton, Button startMenuButton, boolean newHighScore) {
 			VBox gameOver = new VBox();

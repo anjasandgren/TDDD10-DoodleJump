@@ -27,7 +27,6 @@ public class GameLevel {
 			nrOfMonsters = 3;
 		}
 		
-		
 	// Create platforms
 		double y = 0;
 		for (int i = 0; i<nrOfPlatforms-13; ++i) {
@@ -43,7 +42,6 @@ public class GameLevel {
 			model.addObjects(platform);
 		}
 		
-		
 	// Create lava platforms 
 		y = (-1) * MyCanvas.height;
 		for (int i = 0; i<nrOfLavaPlatforms; ++i) {
@@ -56,7 +54,6 @@ public class GameLevel {
 			model.addObjects(lavaPlatform);
 		}
 		
-		
 	// Create monsters
 		y = -600;
 		for (int i = 0; i<nrOfMonsters; ++i) {
@@ -64,7 +61,6 @@ public class GameLevel {
 			y += MyCanvas.height / nrOfMonsters;
 			model.addObjects(monster);
 		}
-		
 		
 	// Create power ups
 		Random randX1 = new Random();
