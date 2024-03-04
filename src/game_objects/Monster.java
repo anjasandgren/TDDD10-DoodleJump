@@ -7,30 +7,30 @@ public class Monster extends GameObject {
 	
 	private boolean isGoingRight;
 	
-	public Monster(String imageString, int width, int height, double x, double y, double speed) {
-		super(imageString, width, height, x, y, speed);
+	public Monster(String imageString, int width, int height, double x, double y, double speedX) {
+		super(imageString, width, height, x, y, speedX, 0);
 		isGoingRight = true;
 	}
 
 	@Override
 	public void update() {
-		
 		if (isTaken() && isShown()) {
 			setWidth(getWidth() + 40);
 			setHeight(getHeight() + 40);
 			increasePosX(-20);
 			increasePosY(-20);
 		} else if (isGoingRight) {
-			increasePosX(getSpeedY());
+			increasePosX(getSpeedX());
 			if (getPosX() + 70 > MyCanvas.width) {
 				isGoingRight = false;
-			} 
+			}
 		} else {
-			increasePosX(-3);
+			increasePosX((-1) * getSpeedX());
 			if (getPosX() < 20) {
 				isGoingRight = true;
 			}
 		}
+		
 		increasePosY(2);
 		
 		if (getWidth() > 200) {
@@ -41,7 +41,7 @@ public class Monster extends GameObject {
 	@Override
 	public void drawYourself(GraphicsContext gc) {
 		if (getPosY() > MyCanvas.height) {
-			reset(-300);
+			reset(-200);
 		}
 		if (isShown()) {
 			gc.drawImage(getGameObjImg(), getPosX(), getPosY(), getWidth(), getHeight());

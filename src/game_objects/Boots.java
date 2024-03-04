@@ -1,11 +1,12 @@
 package game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
+import logic.MyCanvas;
 
 public class Boots extends GameObject {
 
 	public Boots(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, 2);
+		super(imageString, width, height, x, y, 0, 2);
 	}
 
 	@Override
@@ -15,8 +16,8 @@ public class Boots extends GameObject {
 
 	@Override
 	public void drawYourself(GraphicsContext gc) {
-		if (getPosY() > 5000) {
-			reset(-100);
+		if (getPosY() > MyCanvas.height) {
+			reset(-3000);
 		}
 		
 		if (isShown()) {

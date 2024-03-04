@@ -15,8 +15,8 @@ public class Player extends GameObject {
 	private double speedX = 0;
 	private LooseLife looseLife;
 	
-	public Player(String image, String imageWithBoots, int width, int height, double x, double y, double speed, LooseLife looseLife) {
-		super(image, imageWithBoots, width, height, x, y, speed, true);
+	public Player(String image, String imageWithBoots, int width, int height, double x, double y, double speedX, double speedY, LooseLife looseLife) {
+		super(image, imageWithBoots, width, height, x, y, speedX, speedY, true);
 		this.looseLife = looseLife;
 	}
 
@@ -62,6 +62,15 @@ public class Player extends GameObject {
 		}
 	}
 	
+	@Override
+	public void collideHandler(ArrayList<GameObject> objects) {
+		for (GameObject gameObj : objects) {
+			if (collides(this, gameObj)) {
+				gameObj.collidesWithPlayer(this);
+			}
+		}
+	}
+	
 	public boolean isDead(Model model) {
 		if (lifes <= 0) {
 			return true;
@@ -69,15 +78,6 @@ public class Player extends GameObject {
 			return true;
 		} else {
 			return false;
-		}
-	}
-	
-	@Override
-	public void collideHandler(ArrayList<GameObject> objects) {
-		for (GameObject gameObj : objects) {
-			if (collides(this, gameObj)) {
-				gameObj.collidesWithPlayer(this);
-			}
 		}
 	}
 	
@@ -94,17 +94,17 @@ public class Player extends GameObject {
 		return lifes;
 	}
 	
-	@Override
-	public int getScore() {
-		return score;
-	}
-
 	public void setHasBoots(boolean b) {
 		hasBoots = b;
 	}
 	
 	public boolean getHasBoots() {
 		return hasBoots;
+	}
+	
+	@Override
+	public int getScore() {
+		return score;
 	}
 	
 	@Override

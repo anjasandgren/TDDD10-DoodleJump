@@ -36,11 +36,12 @@ public abstract class GameObject {
 	private Image secondGameObjImg;
 	private Point position;
 	private Size size;
+	private double speedX;
 	private double speedY;
 	private boolean isTaken = false;
 	private boolean isShown;
 	
-	public GameObject(String imageString, String secondImageString, int width, int height, double x, double y, double speedY, boolean isShown) {
+	public GameObject(String imageString, String secondImageString, int width, int height, double x, double y, double speedX, double speedY, boolean isShown) {
 		try {
 			gameObjImg = new Image(new FileInputStream(imageString));
 		} catch (Exception e) {
@@ -55,21 +56,30 @@ public abstract class GameObject {
 		}
 		position = new Point(x, y);
 		size = new Size(width, height, width, height);
+		this.speedX = speedX;
 		this.speedY = speedY;
 		this.isShown = isShown;
 	}
 	
-	public GameObject(String imageString, int width, int height, double x, double y, double speed) {
-		this(imageString, "", width, height, x, y, speed, true);
+	public GameObject(String imageString, int width, int height, double x, double y, double speedX, double speedY) {
+		this(imageString, "", width, height, x, y, speedX, speedY, true);
 	}
 	
 	public GameObject(String imageString, int width, int height, double x, double y, boolean isShown) {
-		this(imageString, "", width, height, x, y, 0, isShown);
+		this(imageString, "", width, height, x, y, 0, 0, isShown);
 	}
 	
 	public abstract void update();
 	
 	public abstract void drawYourself(GraphicsContext gc);
+	
+	public void reset(double PosY) {
+		setPosY(PosY);
+		isShown = true;
+		isTaken = false;
+		size.width = size.originalWidth;
+		size.height = size.originalHeight;
+	}
 	
 	public boolean collides(GameObject obj1, GameObject obj2) {
 		Rectangle2D obj1Rec = obj1.getRectangle();
@@ -92,6 +102,10 @@ public abstract class GameObject {
 	
 	public Rectangle2D getRectangle() {
 		return new Rectangle2D(position.x, position.y, size.width, size.height);
+	}
+	
+	public boolean diesFromCollision(GameObject player) {
+		return false;
 	}
 	
 	public void setPosX(double i) {
@@ -118,11 +132,15 @@ public abstract class GameObject {
 		position.y += i;
 	}
 	
-	public void setSpeedX(double speed) {
+	public void setSpeedX(double speedX) {
 	}
 	
 	public void setSpeedY(double speedY) {
 		this.speedY = speedY;
+	}
+	
+	public double getSpeedX() {
+		return speedX;
 	}
 	
 	public double getSpeedY() {
@@ -168,10 +186,6 @@ public abstract class GameObject {
 	public boolean getIsPlayer() {
 		return false;
 	}
-
-	public boolean diesFromCollision(GameObject player) {
-		return false;
-	}
 	
 	public void setIsShown(boolean isShown) {
 		this.isShown = isShown;
@@ -191,13 +205,5 @@ public abstract class GameObject {
 	
 	public boolean isTaken() {
 		return isTaken;
-	}
-	
-	public void reset(double PosY) {
-		setPosY(PosY);
-		isShown = true;
-		isTaken = false;
-		size.width = size.originalWidth;
-		size.height = size.originalHeight;
 	}
 }

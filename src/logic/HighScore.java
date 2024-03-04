@@ -31,18 +31,19 @@ public class HighScore {
 	}
 	
 	public void updateScores(GameObject player) {
-		scores.add(player.getScore());
-		Collections.sort(scores);
-		Collections.reverse(scores);
-
-		DataOutputStream out = null;
-		try {
-			out = new DataOutputStream(new FileOutputStream(hsFile));
-			for (int i = 0; i < 3; i++) {
-				out.writeInt(scores.get(i));
-			}
-			out.close();
-		} catch (IOException e) {}
+		if (!scores.contains(player.getScore())) {
+			scores.add(player.getScore());
+			Collections.sort(scores);
+			Collections.reverse(scores);
+			DataOutputStream out = null;
+			try {
+				out = new DataOutputStream(new FileOutputStream(hsFile));
+				for (int i = 0; i < 3; i++) {
+					out.writeInt(scores.get(i));
+				}
+				out.close();
+			} catch (IOException e) {}
+		}
 	}
 	
 	public ArrayList<Integer> getScores() {

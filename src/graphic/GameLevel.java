@@ -15,31 +15,34 @@ public class GameLevel {
 	private Life life;
 
 	public GameLevel(Model model, boolean difficultLevel) { //diffLevel=true, means hard level, level 2
-		int nrOfPlatforms;
-		int nrOfLavaPlatforms;
-		int monsterSpeed;
+		int nrOfPlatforms = 20;
+		int nrOfLavaPlatforms = 2;
+		int monsterSpeed = 2;
+		int nrOfMonsters = 1;
 		
-		if (!difficultLevel) {
+		if (difficultLevel) {
 			nrOfPlatforms = 20;
-			nrOfLavaPlatforms = 2;
-			monsterSpeed = 2;
-		} else {
-			nrOfPlatforms = 13;
-			nrOfLavaPlatforms = 5;
-			monsterSpeed = 4;
+			nrOfLavaPlatforms = 10;
+			monsterSpeed = 5;
+			nrOfMonsters = 3;
 		}
+		
 		
 	// Create platforms
 		double y = 0;
-		for (int i = 0; i<nrOfPlatforms; ++i) {
+		for (int i = 0; i<nrOfPlatforms-13; ++i) {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
-
-			GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
+			GameObject platform = new Platform("platform.png", 60, 40, x, y);
 			y += MyCanvas.height / nrOfPlatforms;
-			
 			model.addObjects(platform);
 		}
+		for (int i = 0; i<13; ++i) {
+			GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
+			y += MyCanvas.height / nrOfPlatforms;
+			model.addObjects(platform);
+		}
+		
 		
 	// Create lava platforms 
 		y = (-1) * MyCanvas.height;
@@ -53,9 +56,15 @@ public class GameLevel {
 			model.addObjects(lavaPlatform);
 		}
 		
+		
 	// Create monsters
-		GameObject monster = new Monster("monster.png", 70, 80, 0, -600, monsterSpeed);
-		model.addObjects(monster);
+		y = -600;
+		for (int i = 0; i<nrOfMonsters; ++i) {
+			GameObject monster = new Monster("monster.png", 70, 80, 0, -600, monsterSpeed);
+			y += MyCanvas.height / nrOfMonsters;
+			model.addObjects(monster);
+		}
+		
 		
 	// Create power ups
 		Random randX1 = new Random();
@@ -63,8 +72,8 @@ public class GameLevel {
 		double x1 = randX1.nextInt(700);
 		double x2 = randX2.nextInt(700);
 		
-		boots = new Boots("boots.png", 30, 50, x1, -500);
-		life = new Life("life.png", 60, 40, x2, -300);
+		boots = new Boots("boots.png", 30, 50, x1, -300);
+		life = new Life("life.png", 60, 40, x2, -2000);
 		model.addObjects(boots);
 		model.addObjects(life);
 	}

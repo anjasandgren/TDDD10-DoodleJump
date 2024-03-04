@@ -9,7 +9,7 @@ public class Platform extends GameObject {
 	private boolean isLavaPlatform;
 	
 	public Platform(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, 2);
+		super(imageString, width, height, x, y, 0, 2);
 		this.isLavaPlatform = false;
 	}
 

@@ -56,12 +56,7 @@ public class Model {
 	}
 
 	public void repaint(GraphicsContext gc) {
-		
-//		gc.clearRect(0, 0, MyCanvas.width, MyCanvas.height);
-//		gc.setFill(Color.LIGHTBLUE);
-//		gc.fillRect(0, 0, MyCanvas.width, MyCanvas.height);
 		gc.drawImage(backgroundImg, 0, 0,  MyCanvas.width,  MyCanvas.height);
-
 		for (GameObject gameObject : objects) {
 			gameObject.drawYourself(gc);
 		}
@@ -70,16 +65,16 @@ public class Model {
 	public void addObjects(GameObject object) {
 		objects.add(object);
 	}
-
-	public ArrayList<GameObject> getObjects() {
-		return objects;
-	}
-
+	
 	public void removeObject(GameObject gameObj) {
 		objects.remove(gameObj);
 	}
-
-	public void reset() {
+	
+	public void clearObjects() {
 		objects.clear();
+	}
+
+	public ArrayList<GameObject> getObjects() {
+		return objects;
 	}
 }

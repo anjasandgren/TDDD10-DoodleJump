@@ -4,19 +4,6 @@ import graphic.GameLevel;
 import graphic.SidePanel;
 import logic.HighScore;
 import game_objects.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.io.FileReader;
-import java.io.BufferedReader;
-
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -82,6 +69,43 @@ public class MainClass extends Application{
 		Button startMenuButton = new Button("START MENU");
 		
 		
+	// Actions for pressed keys
+		gameScene.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ESCAPE) {
+				primaryStage.setScene(startMenuScene);
+			} else {
+				model.keyPressed(event);
+			}
+		});
+
+		gameScene.setOnKeyReleased(event -> {
+			model.keyReleased(event);
+		});
+		
+		
+	// Run game
+		new AnimationTimer() {
+			@Override
+			public void handle(long arg0) {
+				model.update();
+				frame.repaint();
+
+				try {
+					player.collideHandler(model.getObjects());
+					sidePanel.update(player.getScore(), player.getLifes(), player.getHasBoots());
+					
+					if (player.isDead(model) && gameIsRunning) {
+						gameIsRunning = false;
+						boolean newhighScore = player.getScore() > highscore.getScores().get(0);
+						reset(highscore);
+						primaryStage.setScene(buildGameOverScene(highscore, playAgainButton, startMenuButton, newhighScore));
+						model.clearObjects();
+					}
+				} catch (Exception e) {}
+			}
+		}.start();
+		
+		
 	// Actions for buttons
 		startButton.setOnAction(event -> {
 			if (highscore.getScores().get(0) > 500) {
@@ -113,50 +137,6 @@ public class MainClass extends Application{
 			primaryStage.setScene(gameScene);
 		});
 		
-		gameScene.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ESCAPE) {
-				primaryStage.setScene(startMenuScene);
-			} else {
-				model.keyPressed(event);
-			}
-		});
-
-		gameScene.setOnKeyReleased(event -> {
-			model.keyReleased(event);
-		});
-		
-		startMenu.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-				if (highscore.getScores().get(0) > 500) {
-					primaryStage.setScene(levelScene);
-				} else {
-					level = new GameLevel(model, false);
-					createPlayer(model);
-					primaryStage.setScene(gameScene);
-				}
-			}
-		});
-		
-		new AnimationTimer() {
-			@Override
-			public void handle(long arg0) {
-				model.update();
-				frame.repaint();
-
-				try {
-					player.collideHandler(model.getObjects());
-					sidePanel.update(player.getScore(), player.getLifes(), player.getHasBoots());
-					
-					if (player.isDead(model) && gameIsRunning) {
-						gameIsRunning = false;
-						reset(highscore);
-						primaryStage.setScene(buildGameOverScene(highscore, playAgainButton, startMenuButton));
-						model.reset();
-					}
-				} catch (Exception e) {}
-			}
-		}.start();
-		
 		playAgainButton.setOnAction(event -> {
 			if (highscore.getScores().get(0) > 500) {
 				primaryStage.setScene(levelScene);
@@ -176,22 +156,25 @@ public class MainClass extends Application{
 		primaryStage.show();
 	}
 	
+	
 	public void createPlayer(Model model) {
 		LooseLife looseLife = new LooseLife("loose_life.png", 30, 20, 0, 0);
-		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, -8, looseLife);
+		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, 0, -8, looseLife);
 		model.addObjects(player);
 		model.addObjects(looseLife);
 	}
+	
 	
 	public void reset(HighScore highscore) {
 		highscore.updateScores(player);
 		player.setIsShown(false);
 	}
 	
-	public Scene buildGameOverScene(HighScore highscore, Button playAgainButton, Button startMenuButton) {
+	
+	public Scene buildGameOverScene(HighScore highscore, Button playAgainButton, Button startMenuButton, boolean newHighScore) {
 			VBox gameOver = new VBox();
 	
-			if (player.getScore() > highscore.getScores().get(0)) {
+			if (newHighScore) {
 				Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
 				gameOver.getChildren().add(gameOverLabel);
 				Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
