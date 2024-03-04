@@ -34,6 +34,7 @@ public class MainClass extends Application{
 
 	private GameLevel level;
 	private Player player;
+	private boolean gameIsRunning = true;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -146,9 +147,10 @@ public class MainClass extends Application{
 					player.collideHandler(model.getObjects());
 					sidePanel.update(player.getScore(), player.getLifes(), player.getHasBoots());
 					
-					if (player.isDead(model)) {
+					if (player.isDead(model) && gameIsRunning) {
 						reset(highscore);
 						primaryStage.setScene(buildGameOverScene(highscore, playAgainButton, startMenuButton));
+						gameIsRunning = false;
 					}
 				} catch (Exception e) {}
 			}
@@ -158,9 +160,11 @@ public class MainClass extends Application{
 			if ((Integer.parseInt(highscore.getScores().get(1))) > 500) {
 				primaryStage.setScene(levelScene);
 			} else {
+				model.reset();
 				level = new GameLevel(model, false); // Easy level
 				createPlayer(model);
 				primaryStage.setScene(gameScene);
+				gameIsRunning = true;
 			}
 		});
 		

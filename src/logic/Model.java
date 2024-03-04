@@ -78,4 +78,8 @@ public class Model {
 	public void removeObject(GameObject gameObj) {
 		objects.remove(gameObj);
 	}
+
+	public void reset() {
+		objects.clear();
+	}
 }
