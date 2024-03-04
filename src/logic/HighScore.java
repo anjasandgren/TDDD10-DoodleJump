@@ -1,19 +1,12 @@
 package logic;
 
-import java.io.FileNotFoundException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Scanner; 
-import java.util.*; 
-
 import game_objects.GameObject;
-import game_objects.Player;
 
 public class HighScore {
 	String highScore1 = "0";
@@ -25,14 +18,20 @@ public class HighScore {
 		ObjectInputStream in = null;
 		firstReading();
 		try {
-			in = new ObjectInputStream(new FileInputStream("/home/cajbj386/TDDE10/projekt/highScore1.txt"));
+			in = new ObjectInputStream(new FileInputStream("highScore1.txt"));
 			highScore1 = (String) in.readObject();
-			in = new ObjectInputStream(new FileInputStream("/home/cajbj386/TDDE10/projekt/highScore2.txt"));
+			in = new ObjectInputStream(new FileInputStream("highScore2.txt"));
 			highScore2 = (String) in.readObject();
-			in = new ObjectInputStream(new FileInputStream("/home/cajbj386/TDDE10/projekt/highScore3.txt"));
+			in = new ObjectInputStream(new FileInputStream("highScore3.txt"));
 			highScore3 = (String) in.readObject();
+			scores.add(highScore1);
+			scores.add(highScore2);
+			scores.add(highScore3);
 		} catch (IOException e) {
 			e.printStackTrace();
+			scores.add("0");
+			scores.add("0");
+			scores.add("0");
 		}
 	}
 	
@@ -43,11 +42,11 @@ public class HighScore {
 	public void firstReading() {
 		ObjectOutputStream out = null;
 	try {
-		out = new ObjectOutputStream(new FileOutputStream("/home/cajbj386/TDDE10/projekt/highScore1.txt"));
+		out = new ObjectOutputStream(new FileOutputStream("highScore1.txt"));
 		out.writeObject(highScore1);
-		out = new ObjectOutputStream(new FileOutputStream("/home/cajbj386/TDDE10/projekt/highScore2.txt"));
+		out = new ObjectOutputStream(new FileOutputStream("highScore2.txt"));
 		out.writeObject(highScore2);
-		out = new ObjectOutputStream(new FileOutputStream("/home/cajbj386/TDDE10/projekt/highScore3.txt"));
+		out = new ObjectOutputStream(new FileOutputStream("highScore3.txt"));
 		out.writeObject(highScore3);
 	} catch (IOException e) {
 		e.printStackTrace();
@@ -66,6 +65,10 @@ public class HighScore {
 		} else {
 			loadScore(player, highScore3);
 		}
+		scores.clear();
+		scores.add(highScore1);
+		scores.add(highScore2);
+		scores.add(highScore3);
 	}
 }
 	
