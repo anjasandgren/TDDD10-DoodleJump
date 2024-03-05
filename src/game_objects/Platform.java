@@ -14,15 +14,20 @@ import logic.MyCanvas;
 public class Platform extends GameObject {
 	
 	private boolean isLavaPlatform;
+	private boolean isStartPlatform;
 	
-	public Platform(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, 0, 2);
-		this.isLavaPlatform = false;
-	}
-
-	public Platform(String imageString, int width, int height, double x, double y, boolean isLavaPlatform) {
-		this(imageString, width, height, x, y);
+	public Platform(String imageString, int width, int height, double x, double y, double speedX, double speedY, boolean isLavaPlatform, boolean isStartPlatform) {
+		super(imageString, width, height, x, y, speedX, speedY);
 		this.isLavaPlatform = isLavaPlatform;
+		this.isStartPlatform = isStartPlatform;
+	}
+	
+	public Platform(String imageString, int width, int height, double x, double y, double speedX, double speedY, boolean isLavaPlatform) {
+		this(imageString, width, height, x, y, speedX, speedY, isLavaPlatform, false);
+	}
+	
+	public Platform(String imageString, int width, int height, double x, double y, double speedX, double speedY) {
+		this(imageString, width, height, x, y, speedX, speedY, false, false);
 	}
 	
 	@Override
@@ -32,7 +37,7 @@ public class Platform extends GameObject {
 	
 	@Override
 	public void drawYourself(GraphicsContext gc) {
-		if (getPosY() >= MyCanvas.height) {
+		if (getPosY() >= MyCanvas.height && !isStartPlatform) {
 			Random rand = new Random();
 			int x = rand.nextInt((int)MyCanvas.width - (int)getWidth());
 			setPosX(x);

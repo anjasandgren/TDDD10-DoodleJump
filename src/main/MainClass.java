@@ -17,6 +17,13 @@ import javafx.stage.Stage;
 import logic.Model;
 import logic.MyCanvas;
 
+/**
+ * This is the main class of the game.
+ * It mainly handles the different windows, such as start menu view, game view and game over view etc.
+ * The class also contains the animation timer that runs the game.
+ * @author anjsa296
+ */
+
 public class MainClass extends Application{
 
 	private GameLevel level;
@@ -68,18 +75,20 @@ public class MainClass extends Application{
 		Button playAgainButton = new Button("PLAY AGAIN");
 		Button startMenuButton = new Button("START MENU");
 		
+		
 	// Create hsScene
 		VBox hsMenu = new VBox();
 		Label hsLabel = new Label("Top 3 Scores: ");
 		Label hs1Label = new Label(String.valueOf(highscore.getScores().get(0)));
 		Label hs2Label = new Label(String.valueOf(highscore.getScores().get(1)));
 		Label hs3Label = new Label(String.valueOf(highscore.getScores().get(2)));
-		hsMenu.getChildren().addAll(hsLabel, hs1Label, hs2Label, hs3Label);
+		Label exitLabel = new Label("\nPress ESC to go back");
+		hsMenu.getChildren().addAll(hsLabel, hs1Label, hs2Label, hs3Label, exitLabel);
 		hsMenu.setAlignment(Pos.CENTER);
 		Scene hsScene = new Scene(hsMenu, MyCanvas.width, MyCanvas.height);
 		
 		
-		// Actions for pressed keys
+	// Actions for pressed keys
 		hsScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.ESCAPE) {
 				primaryStage.setScene(startMenuScene);
@@ -99,7 +108,8 @@ public class MainClass extends Application{
 		gameScene.setOnKeyReleased(event -> {
 			model.keyReleased(event);
 		});
-			
+		
+		
 	// Run game
 		new AnimationTimer() {
 			@Override
@@ -144,12 +154,14 @@ public class MainClass extends Application{
 		
 		level1Button.setOnAction(event -> {
 			level = new GameLevel(model, false); // Easy level
+			gameIsRunning = true;
 			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
 		
 		level2Button.setOnAction(event -> {
 			level = new GameLevel(model, true); // Hard level
+			gameIsRunning = true;
 			createPlayer(model);
 			primaryStage.setScene(gameScene);
 		});
@@ -157,12 +169,11 @@ public class MainClass extends Application{
 		playAgainButton.setOnAction(event -> {
 			if (highscore.getScores().get(0) > 500) {
 				primaryStage.setScene(levelScene);
-				gameIsRunning = true;
 			} else {
 				level = new GameLevel(model, false); // Easy level
 				createPlayer(model);
-				primaryStage.setScene(gameScene);
 				gameIsRunning = true;
+				primaryStage.setScene(gameScene);
 			}
 		});
 		
@@ -173,9 +184,10 @@ public class MainClass extends Application{
 		primaryStage.show();
 	}
 	
+	
 	public void createPlayer(Model model) {
 		LooseLife looseLife = new LooseLife("loose_life.png", 30, 20, 0, 0);
-		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height/2, 0, -8, looseLife);
+		player = new Player("elephant.png", "elephant_with_boots.png", 60, 80, MyCanvas.width/2, MyCanvas.height - 300, 0, -8, looseLife);
 		model.addObjects(player);
 		model.addObjects(looseLife);
 	}
@@ -186,32 +198,32 @@ public class MainClass extends Application{
 	}
 	
 	public Scene buildGameOverScene(HighScore highscore, Button playAgainButton, Button startMenuButton, boolean newHighScore) {
-			VBox gameOver = new VBox();
-	
-			if (newHighScore) {
-				Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
-				gameOver.getChildren().add(gameOverLabel);
-				Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
-				Label scoreLabel = new Label(player.getScore() + "\n\n\n");
-				gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
-			} else {
-				Label scoreLabel = new Label("Your Score: " + player.getScore() + "\n\n\n");
-				Label highScoreLabel = new Label ("Top 3 Scores: ");
-				Label highScore1Label = new Label(String.valueOf(highscore.getScores().get(0)));
-				Label highScore2Label = new Label(String.valueOf(highscore.getScores().get(1)));
-				Label highScore3Label = new Label(String.valueOf(highscore.getScores().get(2)) + "\n \n");
-				gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
-			}
-			
-			HBox buttonsPanel = new HBox();
-			buttonsPanel.getChildren().add(playAgainButton);
-			buttonsPanel.getChildren().add(startMenuButton);
-			buttonsPanel.setAlignment(Pos.CENTER);
+		VBox gameOver = new VBox();
 
-			gameOver.getChildren().add(buttonsPanel);
-			gameOver.setAlignment(Pos.CENTER);
+		if (newHighScore) {
+			Label gameOverLabel = new Label ("G A M E   O V E R ! \n\n\n");
+			gameOver.getChildren().add(gameOverLabel);
+			Label newHighScoreLabel = new Label("NEW HIGH SCORE!!!\n\n");
+			Label scoreLabel = new Label(player.getScore() + "\n\n\n");
+			gameOver.getChildren().addAll(newHighScoreLabel, scoreLabel);
+		} else {
+			Label scoreLabel = new Label("Your Score: " + player.getScore() + "\n\n\n");
+			Label highScoreLabel = new Label ("Top 3 Scores: ");
+			Label highScore1Label = new Label(String.valueOf(highscore.getScores().get(0)));
+			Label highScore2Label = new Label(String.valueOf(highscore.getScores().get(1)));
+			Label highScore3Label = new Label(String.valueOf(highscore.getScores().get(2)) + "\n \n");
+			gameOver.getChildren().addAll(scoreLabel, highScoreLabel, highScore1Label, highScore2Label, highScore3Label);
+		}
+		
+		HBox buttonsPanel = new HBox();
+		buttonsPanel.getChildren().add(playAgainButton);
+		buttonsPanel.getChildren().add(startMenuButton);
+		buttonsPanel.setAlignment(Pos.CENTER);
 
-			Scene gameOverScene = new Scene(gameOver, MyCanvas.width, MyCanvas.height);
-			return gameOverScene;
+		gameOver.getChildren().add(buttonsPanel);
+		gameOver.setAlignment(Pos.CENTER);
+
+		Scene gameOverScene = new Scene(gameOver, MyCanvas.width, MyCanvas.height);
+		return gameOverScene;
 	}
 }

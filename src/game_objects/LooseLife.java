@@ -6,7 +6,7 @@ import logic.MyCanvas;
 public class LooseLife extends GameObject{
 	
 	public LooseLife(String imageString, int width, int height, double x, double y) {
-		super(imageString, width, height, x, y, false);
+		super(imageString, width, height, x, y, 0, 0, false);
 	}
 
 	@Override

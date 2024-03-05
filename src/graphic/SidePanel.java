@@ -3,6 +3,12 @@ package graphic;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class is responsible for the side panel when the game is running.
+ * The side panel contains information about the current score and number of lifes.
+ * @author anjsa296
+ */
+
 public class SidePanel extends VBox {
 
 	private int score = 0;

@@ -8,6 +8,12 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * This class contains all object in the game and information about them.
+ * It also has information about the background image.
+ * @author anjsa296
+ */
+
 public class Model {
 	
 	private Image backgroundImg;

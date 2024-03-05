@@ -68,12 +68,12 @@ public abstract class GameObject {
 		this.isShown = isShown;
 	}
 	
-	public GameObject(String imageString, int width, int height, double x, double y, double speedX, double speedY) {
-		this(imageString, "", width, height, x, y, speedX, speedY, true);
+	public GameObject(String imageString, int width, int height, double x, double y, double speedX, double speedY, boolean isShown) {
+		this(imageString, "", width, height, x, y, speedX, speedY, isShown);
 	}
 	
-	public GameObject(String imageString, int width, int height, double x, double y, boolean isShown) {
-		this(imageString, "", width, height, x, y, 0, 0, isShown);
+	public GameObject(String imageString, int width, int height, double x, double y, double speedX, double speedY) {
+		this(imageString, "", width, height, x, y, speedX, speedY, true);
 	}
 	
 	public abstract void update();

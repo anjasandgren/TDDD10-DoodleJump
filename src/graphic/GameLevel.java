@@ -9,35 +9,39 @@ import java.util.Random;
 import logic.Model;
 import logic.MyCanvas;
 
+/**
+ * This class is responsible for creating a level in the game.
+ * There are two levels to choose from with different difficulty.
+ * @author anjsa296
+ */
+
 public class GameLevel {
 	
 	private Boots boots;
 	private Life life;
 
-	public GameLevel(Model model, boolean difficultLevel) { //diffLevel=true, means hard level, level 2
+	public GameLevel(Model model, boolean difficultLevel) {
 		int nrOfPlatforms = 20;
 		int nrOfLavaPlatforms = 2;
 		int monsterSpeed = 2;
 		int nrOfMonsters = 1;
 		
 		if (difficultLevel) {
-			nrOfPlatforms = 20;
-			nrOfLavaPlatforms = 10;
-			monsterSpeed = 5;
+			nrOfPlatforms = 15;
+			nrOfLavaPlatforms = 8;
+			monsterSpeed = 6;
 			nrOfMonsters = 3;
 		}
 		
 	// Create platforms
-		double y = 0;
-		for (int i = 0; i<nrOfPlatforms-13; ++i) {
+		GameObject platform = new Platform("platform.png", 800, 40, 0, MyCanvas.height - 150, 0, 1, false, true);
+		model.addObjects(platform);
+
+		double y = -300;
+		for (int i = 0; i<nrOfPlatforms; ++i) {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
-			GameObject platform = new Platform("platform.png", 60, 40, x, y);
-			y += MyCanvas.height / nrOfPlatforms;
-			model.addObjects(platform);
-		}
-		for (int i = 0; i<13; ++i) {
-			GameObject platform = new Platform("platform.png", 60, 40, MyCanvas.width/2 - 30, y);
+			platform = new Platform("platform.png", 60, 40, x, y, 0, 2);
 			y += MyCanvas.height / nrOfPlatforms;
 			model.addObjects(platform);
 		}
@@ -48,7 +52,7 @@ public class GameLevel {
 			Random randX = new Random();
 			double x = randX.nextInt(700);
 
-			GameObject lavaPlatform = new Platform("lava_platform.png", 70, 17, x, y, true);
+			GameObject lavaPlatform = new Platform("lava_platform.png", 70, 17, x, y, 0, 2, true);
 			y += MyCanvas.height / nrOfLavaPlatforms;
 			
 			model.addObjects(lavaPlatform);
