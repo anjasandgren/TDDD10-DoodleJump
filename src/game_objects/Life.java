@@ -3,6 +3,12 @@ package game_objects;
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
+/**
+ * This class handles functions for Life. Main function is to draw the LifeImage.
+ * Moreover it also enhances the effects of how the LifeImage is shown on screen when taken.
+ * @author cajbj386
+ */
+
 public class Life extends GameObject {
 	
 	public Life(String imageString, int width, int height, double x, double y) {

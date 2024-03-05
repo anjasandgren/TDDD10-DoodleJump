@@ -3,6 +3,12 @@ package game_objects;
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
+/**
+ * This class handles functions for Monster and is responsible for drawing them. 
+ * Main function is to handle how monster moves.
+ * @author cajbj386
+ */
+
 public class Monster extends GameObject {
 	
 	private boolean isGoingRight;
@@ -21,7 +27,7 @@ public class Monster extends GameObject {
 			increasePosY(-20);
 		} else if (isGoingRight) {
 			increasePosX(getSpeedX());
-			if (getPosX() + 70 > MyCanvas.width) {
+			if (getPosX() + getWidth() > MyCanvas.width) {
 				isGoingRight = false;
 			}
 		} else {

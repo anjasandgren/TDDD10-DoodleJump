@@ -4,6 +4,13 @@ import java.util.Random;
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
+/**
+ * This class handles functions for the different Platforms and is responsible for drawing them. 
+ * Main function is to handle the differences between LavaPlatform and Platform, meanwhile
+ * Player jumps on Platforms, player looses a life when trying to jump on a LavaPlatform.
+ * @author cajbj386
+ */
+
 public class Platform extends GameObject {
 	
 	private boolean isLavaPlatform;

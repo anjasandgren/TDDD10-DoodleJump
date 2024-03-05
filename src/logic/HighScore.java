@@ -9,6 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import game_objects.GameObject;
 
+/**
+ * This class handles functions for handling highscore and is responsible for updating them. 
+ * Main function is to read the top 3 scores from and to file. 
+ * @author cajbj386
+ */
+
 public class HighScore {
 	
 	private ArrayList<Integer> scores;

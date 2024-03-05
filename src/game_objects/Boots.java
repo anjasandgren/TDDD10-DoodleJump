@@ -3,6 +3,11 @@ package game_objects;
 import javafx.scene.canvas.GraphicsContext;
 import logic.MyCanvas;
 
+/**
+ * This class handles functions for Boots and is responsible for drawing them. 
+ * @author cajbj386
+ */
+
 public class Boots extends GameObject {
 
 	public Boots(String imageString, int width, int height, double x, double y) {

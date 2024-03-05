@@ -6,6 +6,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/**
+ * This superclass handles functions for the different objects in the game and is responsible
+ * for handling all data regarding images, size, position and if shown on the screen. 
+ * Also this class contains the class Size(), which helps structuring all numeric values.
+ * @author cajbj386
+ */
+
 public abstract class GameObject {
 
 	public class Point {

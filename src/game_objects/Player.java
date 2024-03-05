@@ -5,6 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 import logic.Model;
 import logic.MyCanvas;
 
+/**
+ * This class handles functions for Player and is responsible for drawing the updated version. 
+ * Main function is to handle the development for Player during the game, if picking up
+ * powerups, colliding with monsters or platforms and mostly - is Player still alive.
+ * @author cajbj386
+ */
+
 public class Player extends GameObject {
 	
 	private int lifes = 3;
