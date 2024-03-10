@@ -9,35 +9,10 @@ import javafx.scene.image.Image;
 /**
  * This superclass handles functions for the different objects in the game and is responsible
  * for handling all data regarding images, size, position and if shown on the screen. 
- * Also this class contains the class Size(), which helps structuring all numeric values.
  * @author cajbj386
  */
 
 public abstract class GameObject {
-
-	public class Point {
-		double x;
-		double y;
-
-		public Point(double x, double y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
-
-	public class Size {
-		double width;
-		double height;
-		double originalWidth;
-		double originalHeight;
-
-		public Size(double width, double height, double originalWidth, double originalHeight) {
-			this.width = width;
-			this.height = height;
-			this.originalWidth = originalWidth;
-			this.originalHeight = originalHeight;
-		}
-	}
 	
 	private Image gameObjImg;
 	private Image secondGameObjImg;
